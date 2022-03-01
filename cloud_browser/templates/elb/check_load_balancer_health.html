@@ -16,11 +16,11 @@
                     <td>
                         {% for instance_state in load_balancer.instance_states %}
                             {% if instance_state.state == 'InService' %}
-                                <span class="uk-label uk-label-success instance-id-label">{{ instance_state.instance_id }}</span>
+                                <span class="uk-label uk-label-success instance-id-label" uk-tooltip="InService">{{ instance_state.instance_id }}</span>
                             {% elif instance_state.state == 'OutOfService' %}
-                                <span class="uk-label uk-label-danger instance-id-label">{{ instance_state.instance_id }}</span>
+                                <span class="uk-label uk-label-danger instance-id-label" uk-tooltip="OutOfService">{{ instance_state.instance_id }}</span>
                             {% else %}
-                                <span class="uk-label uk-label-warning instance-id-label">{{ instance_state.instance_id }}</span>
+                                <span class="uk-label uk-label-warning instance-id-label" uk-tooltip="Unknown">{{ instance_state.instance_id }}</span>
                             {% endif %}
                         {% endfor %}
                     </td>

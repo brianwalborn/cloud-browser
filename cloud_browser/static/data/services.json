@@ -13,7 +13,7 @@
     },
     {
         "actions": [
-            { "action": "check_load_balancer_health", "description": "Display classic load balancer health" }
+            { "action": "check_load_balancer_health", "description": "Display classic load balancer instance health" }
         ],
         "name": "elb",
         "thumbnail": "images/elb.png"

@@ -1,5 +1,5 @@
 import os
-from cloud_browser.blueprints import home
+from cloud_browser.blueprints import home, settings
 from flask import Flask
 
 def create_app(test_config = None):
@@ -13,5 +13,8 @@ def create_app(test_config = None):
 
     app.register_blueprint(home.bp)
     app.add_url_rule('/', endpoint = 'index')
+
+    app.register_blueprint(settings.bp)
+    app.add_url_rule('/settings', endpoint = 'index')
 
     return app

@@ -1,0 +1,52 @@
+li {
+    list-style: none;
+    width: 75%;
+}
+
+nav {
+    height: 2em;
+    margin: 1em auto;
+    width: 98%;
+}
+
+nav .icon {
+    float: right;
+}
+
+.content {
+    margin: 1.5em;
+}
+
+.instance-id-label {
+    text-transform: lowercase;
+}
+
+.logo {
+    background: url('../images/logo-cloud-browser.png') center center no-repeat;
+    background-size: contain;
+    float: left;
+    height: 100%;
+    width: 10em;
+}
+
+.service-information {
+    margin: 0 auto;
+    width: 85%;
+}
+
+.service-name {
+    float: right;
+    position: relative;
+}
+
+.service-thumbnail {
+    float: left;
+    height: 2.2em;
+    margin-top: 0.25em;
+    width: 2.2em;
+}
+
+.service-tile {
+    padding: 10px;
+    width: 15em;
+}

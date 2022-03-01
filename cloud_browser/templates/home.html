@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>AWS Services</h2>
+    <div class="uk-grid-small" uk-grid>
+        {% for service in services %}
+            <div>
+                <a href="{{ service['name'] }}">
+                    <div class="service-tile uk-button uk-button-default">
+                        <div class="service-information">
+                            <img class="service-thumbnail" src="{{ url_for('static', filename = service['thumbnail']) }}" title="thumbnail">
+                            <span class="service-name">{{ service['name'] }}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<head>
+    {% if service %}
+        <title>cloud browser - {{ service }}</title>
+    {% else %}
+        <title>cloud browser</title>
+    {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/uikit.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<nav>
+    <a href="/"><div class="logo"></div></a>
+    <a class="icon" href="/settings" uk-icon="icon: cog; ratio: 1.75"></a>
+</nav>
+
+<section class="content">
+    {% block content %}
+    {% endblock %}
+</section>
+
+<script src="{{ url_for('static', filename = 'js/uikit.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'js/uikit-icons.min.js') }}"></script>

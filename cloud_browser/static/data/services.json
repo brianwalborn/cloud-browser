@@ -1,0 +1,28 @@
+[
+    {
+        "actions": [
+            { "action": "check_auto_scaling_groups", "description": "Display auto scaling group lifecycle hooks and suspended processes" }
+        ],
+        "name": "autoscaling",
+        "thumbnail": "images/autoscaling.png"
+    },
+    {
+        "actions": [ ],
+        "name": "ec2",
+        "thumbnail": "images/ec2.png"
+    },
+    {
+        "actions": [
+            { "action": "check_load_balancer_health", "description": "Display classic load balancer health" }
+        ],
+        "name": "elb",
+        "thumbnail": "images/elb.png"
+    },
+    {
+        "actions": [
+            { "action": "send_ssm_command", "description": "Send a command via SSM to an instance or group of instances" }
+        ],
+        "name": "ssm",
+        "thumbnail": "images/ssm.png"
+    }
+]

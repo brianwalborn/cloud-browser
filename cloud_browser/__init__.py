@@ -1,5 +1,5 @@
 import os
-from cloud_browser.blueprints import home, settings
+from cloud_browser.blueprints import autoscaling, home, settings
 from flask import Flask
 
 def create_app(test_config = None):
@@ -10,6 +10,9 @@ def create_app(test_config = None):
 
     try: os.makedirs(app.instance_path)
     except OSError: pass
+
+    app.register_blueprint(autoscaling.bp)
+    app.add_url_rule('/autoscaling', endpoint = 'index')
 
     app.register_blueprint(home.bp)
     app.add_url_rule('/', endpoint = 'index')

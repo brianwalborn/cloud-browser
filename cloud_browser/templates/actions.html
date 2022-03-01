@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="services">
+        <h2>Actions</h2>
+        <ul>
+            {% for action in actions %}
+                <li>
+                    <a class="action" href="{{ service }}/{{ action['action'] }}">{{ action['action'] }}</a> -- <span>{{ action['description'] }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

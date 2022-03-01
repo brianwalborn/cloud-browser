@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Load Balancers</h2>
+    <table class="uk-table uk-table-divider">
+        <thead>
+            <tr>
+                <th>Load Balancer</th>
+                <th>Instances</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for load_balancer in load_balancers %}
+                <tr>
+                    <td>{{ load_balancer.name }}</td>
+                    <td>
+                        {% for instance_state in load_balancer.instance_states %}
+                            {% if instance_state.state == 'InService' %}
+                                <span class="uk-label uk-label-success instance-id-label">{{ instance_state.instance_id }}</span>
+                            {% elif instance_state.state == 'OutOfService' %}
+                                <span class="uk-label uk-label-danger instance-id-label">{{ instance_state.instance_id }}</span>
+                            {% else %}
+                                <span class="uk-label uk-label-warning instance-id-label">{{ instance_state.instance_id }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,5 +1,5 @@
 import os
-from cloud_browser.blueprints import autoscaling, home, settings
+from cloud_browser.blueprints import autoscaling, elb, home, settings
 from flask import Flask
 
 def create_app(test_config = None):
@@ -13,6 +13,9 @@ def create_app(test_config = None):
 
     app.register_blueprint(autoscaling.bp)
     app.add_url_rule('/autoscaling', endpoint = 'index')
+
+    app.register_blueprint(elb.bp)
+    app.add_url_rule('/elb', endpoint = 'index')
 
     app.register_blueprint(home.bp)
     app.add_url_rule('/', endpoint = 'index')

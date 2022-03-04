@@ -22,7 +22,7 @@
                                     <input type="hidden" name="id" value="{{ region['id'] }}" />
                                 </td>
                                 <td>
-                                    <button class="uk-button uk-button-link uk-button-small" name="remove_region" type="submit"><span uk-icon="icon: close"></span></button>
+                                    <button class="uk-button uk-button-link uk-button-small" name="remove_region" type="submit"><span class="uk-text-danger" uk-icon="icon: minus-circle"></span></button>
                                 </td>
                             </form>
                         </tr>
@@ -33,7 +33,7 @@
                                 <input class="uk-input uk-form-width-medium" name="region" type="text" placeholder="Add region">
                             </td>
                             <td>
-                                <button class="uk-button uk-button-link uk-button-small" name="add_region" type="submit"><span uk-icon="icon: check"></span></button>
+                                <button class="uk-button uk-button-link uk-button-small" name="add_region" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>
                             </td>
                         </form>
                     </tr>
@@ -65,7 +65,7 @@
                                     <label class="uk-label uk-label" >{{ tag['tag_value'] }}</label>
                                 </td>
                                 <td>
-                                    <button class="uk-button uk-button-link uk-button-small" name="remove_tag" type="submit"><span uk-icon="icon: close"></span></button>
+                                    <button class="uk-button uk-button-link uk-button-small" name="remove_tag" type="submit"><span class="uk-text-danger" uk-icon="icon: minus-circle"></span></button>
                                 </td>
                             </form>
                         </tr>
@@ -79,7 +79,7 @@
                                 <input class="uk-input uk-form-width-medium" name="value" type="text" placeholder="Tag value">
                             </td>
                             <td>
-                                <button class="uk-button uk-button-link uk-button-small" name="add_tag" type="submit"><span uk-icon="icon: check"></span></button>
+                                <button class="uk-button uk-button-link uk-button-small" name="add_tag" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>
                             </td>
                         </form>
                     </tr>
@@ -111,7 +111,7 @@
                                     <label class="uk-label uk-label" >{{ tag['tag_value'] }}</label>
                                 </td>
                                 <td>
-                                    <button class="uk-button uk-button-link uk-button-small" name="remove_excluded_tag" type="submit"><span uk-icon="icon: close"></span></button>
+                                    <button class="uk-button uk-button-link uk-button-small" name="remove_excluded_tag" type="submit"><span class="uk-text-danger" uk-icon="icon: minus-circle"></span></button>
                                 </td>
                             </form>
                         </tr>
@@ -125,7 +125,7 @@
                                 <input class="uk-input uk-form-width-medium" name="value" type="text" placeholder="Tag value">
                             </td>
                             <td>
-                                <button class="uk-button uk-button-link uk-button-small" name="add_excluded_tag" type="submit"><span uk-icon="icon: check"></span></button>
+                                <button class="uk-button uk-button-link uk-button-small" name="add_excluded_tag" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>
                             </td>
                         </form>
                     </tr>

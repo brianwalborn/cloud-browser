@@ -11,9 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<nav>
-    <a href="/"><div class="logo"></div></a>
-    <a class="icon" href="/settings" uk-icon="icon: cog; ratio: 1.75"></a>
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-right">
+        <ul class="uk-navbar-nav">
+            <li><a href="/" uk-icon="icon: home; ratio: 1.75"></a></li>
+            <li><a href="/settings" uk-icon="icon: cog; ratio: 1.75"></a></li>
+        </ul>
+    </div>
 </nav>
 
 {% for message in get_flashed_messages() %}
@@ -23,7 +27,7 @@
     </div>
 {% endfor %}
 
-<section class="uk-container">
+<section class="uk-container uk-margin-medium-top">
     {% block content %}
     {% endblock %}
 </section>

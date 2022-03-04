@@ -13,10 +13,6 @@ nav .icon {
     float: right;
 }
 
-.content {
-    margin: 1.5em;
-}
-
 .instance-id-label {
     text-transform: lowercase;
 }

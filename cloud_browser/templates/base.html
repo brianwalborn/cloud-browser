@@ -16,7 +16,14 @@
     <a class="icon" href="/settings" uk-icon="icon: cog; ratio: 1.75"></a>
 </nav>
 
-<section class="content">
+{% for message in get_flashed_messages() %}
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>{{ message }}</p>
+    </div>
+{% endfor %}
+
+<section class="uk-container">
     {% block content %}
     {% endblock %}
 </section>

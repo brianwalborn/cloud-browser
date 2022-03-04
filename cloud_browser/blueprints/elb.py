@@ -22,4 +22,4 @@ def check_load_balancer_health():
     check = Check()
     load_balancers = check.get_load_balancer_instance_health()
 
-    return render_template('elb/check_load_balancer_health.html', load_balancers = sorted(load_balancers, key=lambda x: x.name), service = 'check_load_balancer_health')
+    return render_template('elb/check_load_balancer_health.html', load_balancers = load_balancers, service = 'check_load_balancer_health')

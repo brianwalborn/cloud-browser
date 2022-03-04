@@ -14,7 +14,6 @@ class AutoScalingGroup(BaseAwsResource):
         self.health_check_type = self._lookup(auto_scaling_group_json, 'HealthCheckType')
         self.instances = self.__get_auto_scaling_group_instances(auto_scaling_group_json)
         self.launch_configuration_name = self._lookup(auto_scaling_group_json, 'LaunchConfigurationName')
-        self.lifecycle_hooks = autoscaling.AutoScalingGroupService(self.region).get_lifecycle_hooks(self.auto_scaling_group_name)
         self.load_balancers = self._lookup(auto_scaling_group_json, 'LoadBalancerNames')
         self.max_size = self._lookup(auto_scaling_group_json, 'MaxSize')
         self.min_size = self._lookup(auto_scaling_group_json, 'MinSize')

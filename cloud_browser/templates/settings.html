@@ -1,1 +1,136 @@
 {% extends 'base.html' %}
+
+{% block content %}
+    <h2>Settings</h2>
+    <div class="uk-section uk-section-xsmall">
+        <div class="uk-container">
+            <h3 class="uk-heading-line"><span>Regions</span></h3>
+            <span class="uk-text-meta">Specify the regions in which to query for resources.</span>
+            <table class="uk-table uk-table-small uk-table-middle">
+                <thead>
+                    <tr>
+                        <th class="uk-table-shrink">Region</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for region in regions %}
+                        <tr>
+                            <form method="POST">
+                                <td>
+                                    <label class="uk-label uk-label" >{{ region['region'] }}</label>
+                                    <input type="hidden" name="id" value="{{ region['id'] }}" />
+                                </td>
+                                <td>
+                                    <button class="uk-button uk-button-link uk-button-small" name="remove_region" type="submit"><span uk-icon="icon: close"></span></button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <form method="POST">
+                            <td>
+                                <input class="uk-input uk-form-width-medium" name="region" type="text" placeholder="Add region">
+                            </td>
+                            <td>
+                                <button class="uk-button uk-button-link uk-button-small" name="add_region" type="submit"><span uk-icon="icon: check"></span></button>
+                            </td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="uk-section uk-section-xsmall">
+        <div class="uk-container">
+            <h3 class="uk-heading-line"><span>Tags</span></h3>
+            <span class="uk-text-meta">Specify the tags to be included in the queries to retrieve resources.</span>
+            <table class="uk-table uk-table-small uk-table-middle">
+                <thead>
+                    <tr>
+                        <th class="uk-table-shrink">Key</th>
+                        <th class="uk-table-shrink">Value</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tag in tags %}
+                        <tr>
+                            <form method="POST">
+                                <input type="hidden" name="id" value="{{ tag['id'] }}" />
+                                <td>
+                                    <label class="uk-label uk-label" >{{ tag['tag_key'] }}</label>
+                                </td>
+                                <td>
+                                    <label class="uk-label uk-label" >{{ tag['tag_value'] }}</label>
+                                </td>
+                                <td>
+                                    <button class="uk-button uk-button-link uk-button-small" name="remove_tag" type="submit"><span uk-icon="icon: close"></span></button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <form method="POST">
+                            <td>
+                                <input class="uk-input uk-form-width-medium" name="key" type="text" placeholder="Tag key">
+                            </td>
+                            <td>
+                                <input class="uk-input uk-form-width-medium" name="value" type="text" placeholder="Tag value">
+                            </td>
+                            <td>
+                                <button class="uk-button uk-button-link uk-button-small" name="add_tag" type="submit"><span uk-icon="icon: check"></span></button>
+                            </td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="uk-section uk-section-xsmall">
+        <div class="uk-container">
+            <h3 class="uk-heading-line"><span>Tags to Exclude</span></h3>
+            <span class="uk-text-meta">Specify the tags to exclude in the queries to retrieve resources.</span>
+            <table class="uk-table uk-table-small uk-table-middle">
+                <thead>
+                    <tr>
+                        <th class="uk-table-shrink">Key</th>
+                        <th class="uk-table-shrink">Value</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tag in tags_to_exclude %}
+                        <tr>
+                            <form method="POST">
+                                <input type="hidden" name="id" value="{{ tag['id'] }}" />
+                                <td>
+                                    <label class="uk-label uk-label" >{{ tag['tag_key'] }}</label>
+                                </td>
+                                <td>
+                                    <label class="uk-label uk-label" >{{ tag['tag_value'] }}</label>
+                                </td>
+                                <td>
+                                    <button class="uk-button uk-button-link uk-button-small" name="remove_excluded_tag" type="submit"><span uk-icon="icon: close"></span></button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <form method="POST">
+                            <td>
+                                <input class="uk-input uk-form-width-medium" name="key" type="text" placeholder="Tag key">
+                            </td>
+                            <td>
+                                <input class="uk-input uk-form-width-medium" name="value" type="text" placeholder="Tag value">
+                            </td>
+                            <td>
+                                <button class="uk-button uk-button-link uk-button-small" name="add_excluded_tag" type="submit"><span uk-icon="icon: check"></span></button>
+                            </td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

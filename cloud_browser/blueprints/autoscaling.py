@@ -20,6 +20,6 @@ def index():
 @bp.route('/autoscaling/check_auto_scaling_groups')
 def check_auto_scaling_groups():
     scanner = Scanner()
-    scanner.run()
+    auto_scaling_groups = scanner.get_auto_scaling_groups()
 
-    return render_template('autoscaling/check_auto_scaling_groups.html', auto_scaling_groups = scanner.all_auto_scaling_groups, service = 'check_auto_scaling_groups')
+    return render_template('autoscaling/check_auto_scaling_groups.html', auto_scaling_groups = auto_scaling_groups, service = 'check_auto_scaling_groups')

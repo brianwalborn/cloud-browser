@@ -25,8 +25,7 @@ def index():
 
             database.commit()
         except Exception as e:
-            flash(e)
-            print(e)
+            flash(e, 'error')
 
     regions = database.execute('SELECT * FROM settings_query_regions').fetchall()
     tags = database.execute('SELECT * FROM settings_query_tags').fetchall()

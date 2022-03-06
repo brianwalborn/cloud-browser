@@ -27,4 +27,4 @@ class Check:
 
             return sorted(self.load_balancers, key=lambda x: x.name)
         except Exception as e:
-            print(f'Exception {type(e)}: {e}')
+            raise Exception(e)

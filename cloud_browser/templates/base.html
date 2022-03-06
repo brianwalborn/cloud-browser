@@ -20,11 +20,19 @@
     </div>
 </nav>
 
-{% for message in get_flashed_messages() %}
-    <div class="uk-alert-danger" uk-alert>
-        <a class="uk-alert-close" uk-close></a>
-        <p>{{ message }}</p>
-    </div>
+{% for category, message in get_flashed_messages(with_categories = true) %}
+    {% if category == 'error' %}
+        <div class="uk-alert-danger" uk-alert>
+    {% elif category == 'success' %}
+        <div class="uk-alert-success" uk-alert>
+    {% elif category == "warning" %}
+        <div class="uk-alert-warning" uk-alert>
+    {% else %}
+        <div class="uk-alert-primary" uk-alert>
+    {% endif %}
+            <a class="uk-alert-close" uk-close></a>
+            <p>{{ message }}</p>
+        </div>
 {% endfor %}
 
 <section class="uk-container uk-margin-medium-top">

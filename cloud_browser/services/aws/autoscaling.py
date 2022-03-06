@@ -1,3 +1,4 @@
+from tkinter import E
 from cloud_browser.models.aws.autoscaling.auto_scaling_group import AutoScalingGroup
 from cloud_browser.models.aws.autoscaling.lifecycle_hook import LifecycleHook
 from cloud_browser.services.base import BaseAwsService
@@ -13,7 +14,7 @@ class AutoScalingGroupService(BaseAwsService):
             
             return response
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)
 
     def get_auto_scaling_groups_by_tag(self) -> list[AutoScalingGroup]:
         try:
@@ -44,7 +45,7 @@ class AutoScalingGroupService(BaseAwsService):
 
             return sorted(auto_scaling_groups, key=lambda x: x.auto_scaling_group_name)
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)
 
     def get_lifecycle_hooks(self, auto_scaling_group_name) -> list[LifecycleHook]:
         try:
@@ -55,7 +56,7 @@ class AutoScalingGroupService(BaseAwsService):
 
             return lifecycle_hooks
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)
 
     def resume_processes(self, auto_scaling_group_name, suspended_processes):
         try:
@@ -63,4 +64,4 @@ class AutoScalingGroupService(BaseAwsService):
 
             return response
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)

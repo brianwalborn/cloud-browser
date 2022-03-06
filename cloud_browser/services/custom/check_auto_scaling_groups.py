@@ -13,7 +13,10 @@ class Scanner:
             regions = database.execute('SELECT * FROM settings_query_regions').fetchall()
 
             def append_auto_scaling_groups(service: autoscaling.AutoScalingGroupService):
-                self.all_auto_scaling_groups += service.get_auto_scaling_groups_by_tag()
+                try:
+                    self.all_auto_scaling_groups += service.get_auto_scaling_groups_by_tag()
+                except Exception as e:
+                    raise Exception(e)
 
             for region in regions:
                 service = autoscaling.AutoScalingGroupService(region['region'])
@@ -23,4 +26,4 @@ class Scanner:
 
             return self.all_auto_scaling_groups
         except Exception as e:
-            print(f'Exception {type(e)}: {e}')
+            raise Exception(e)

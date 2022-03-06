@@ -1,10 +1,11 @@
 import boto3
-import traceback
+import botocore.exceptions
 from cloud_browser.database.database import get_database
 from cloud_browser.models.aws.generic.tag import Tag
 
 class BaseAwsService:
     def __init__(self, aws_service, region) -> None:
+        self.__test_connection()
         self.client = self.__get_client(aws_service, region)
         self.tags = self.__get_tags()
         self.filters = self.__generate_filters()
@@ -25,13 +26,13 @@ class BaseAwsService:
 
             return ret
         except Exception as e:
-            print(f'\nException {type(e)}: {e}\n{traceback.format_exc()}')
+            raise Exception(e)
 
     def __get_client(self, aws_service, region) -> boto3.Session.client:
         try:
             return boto3.client(aws_service, region_name = region)
         except Exception as e:
-            print(f'\nException {type(e)}: {e}\n{traceback.format_exc()}')
+            raise Exception(e)
 
     def __get_tags(self) -> list[Tag]:
         try:
@@ -44,7 +45,7 @@ class BaseAwsService:
 
             return ret
         except Exception as e:
-            print(f'\nException {type(e)}: {e}\n{traceback.format_exc()}')
+            raise Exception(e)
 
     def __get_tags_to_ignore(self):
         try:
@@ -57,4 +58,12 @@ class BaseAwsService:
 
             return ret
         except Exception as e:
-            print(f'\nException {type(e)}: {e}\n{traceback.format_exc()}')
+            raise Exception(e)
+
+    def __test_connection(self):
+        try:
+            boto3.client('s3').list_buckets()
+        except botocore.exceptions.ClientError as e:
+            raise Exception(f'{e.response["Error"]["Message"]} ({e.response["Error"]["Code"]})')
+        except Exception as e:
+            raise Exception(e)

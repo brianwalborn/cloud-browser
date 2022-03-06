@@ -1,3 +1,4 @@
+from tkinter import E
 from cloud_browser.models.aws.elb.instance_state import InstanceState
 from cloud_browser.models.aws.elb.load_balancer import LoadBalancer
 from cloud_browser.models.aws.elb.tag_description import TagDescription
@@ -18,7 +19,7 @@ class ElasticLoadBalancingService(BaseAwsService):
 
             return instance_states
         except Exception as e:
-            print(f'\nException {type(e)}: Load balancer name {load_balancer_name}: {e}')
+            raise Exception(e)
 
     def get_load_balancers(self) -> list[LoadBalancer]:
         # TODO: Refactor
@@ -43,7 +44,7 @@ class ElasticLoadBalancingService(BaseAwsService):
 
             return sorted(return_list, key=lambda x: x.name)
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)
 
     def get_load_balancer_tag_descriptions(self, load_balancer_names) -> list[TagDescription]:
         try:
@@ -63,4 +64,4 @@ class ElasticLoadBalancingService(BaseAwsService):
 
             return tag_descriptions
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)

@@ -33,4 +33,4 @@ class AutoScalingGroup(BaseAwsResource):
 
         for suspended_process in self._lookup(auto_scaling_group_json, 'SuspendedProcesses'): suspended_processes.append(SuspendedProcess(suspended_process))
 
-        return suspended_processes
+        return sorted(suspended_processes, key = lambda x: x.process_name)

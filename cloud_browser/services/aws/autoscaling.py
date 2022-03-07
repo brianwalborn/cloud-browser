@@ -25,7 +25,8 @@ class AutoScalingGroupService(BaseAwsService):
                     if dict in auto_scaling_group_object.tags: ignore = True
 
                 if not ignore:
-                    auto_scaling_group_object.lifecycle_hooks = self.get_lifecycle_hooks(auto_scaling_group_object.auto_scaling_group_name)
+                    auto_scaling_group_object.lifecycle_hooks = sorted(self.get_lifecycle_hooks(auto_scaling_group_object.auto_scaling_group_name), key = lambda x: x.lifecycle_hook_name)
+                    
                     auto_scaling_groups.append(auto_scaling_group_object)
             
             auto_scaling_groups = []

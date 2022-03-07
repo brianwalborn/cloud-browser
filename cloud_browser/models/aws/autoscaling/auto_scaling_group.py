@@ -1,4 +1,3 @@
-import cloud_browser.services.aws.autoscaling as autoscaling
 from cloud_browser.models.aws.autoscaling.instance import Instance
 from cloud_browser.models.aws.autoscaling.suspended_process import SuspendedProcess
 from cloud_browser.models.base import BaseAwsResource
@@ -14,6 +13,7 @@ class AutoScalingGroup(BaseAwsResource):
         self.health_check_type = self._lookup(auto_scaling_group_json, 'HealthCheckType')
         self.instances = self.__get_auto_scaling_group_instances(auto_scaling_group_json)
         self.launch_configuration_name = self._lookup(auto_scaling_group_json, 'LaunchConfigurationName')
+        self.lifecycle_hooks = None
         self.load_balancers = self._lookup(auto_scaling_group_json, 'LoadBalancerNames')
         self.max_size = self._lookup(auto_scaling_group_json, 'MaxSize')
         self.min_size = self._lookup(auto_scaling_group_json, 'MinSize')

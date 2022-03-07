@@ -1,4 +1,3 @@
-from tkinter import E
 from cloud_browser.models.aws.autoscaling.auto_scaling_group import AutoScalingGroup
 from cloud_browser.models.aws.autoscaling.lifecycle_hook import LifecycleHook
 from cloud_browser.services.base import BaseAwsService
@@ -25,7 +24,9 @@ class AutoScalingGroupService(BaseAwsService):
                 for dict in self.tags_to_ignore:
                     if dict in auto_scaling_group_object.tags: ignore = True
 
-                if not ignore: auto_scaling_groups.append(auto_scaling_group_object)
+                if not ignore:
+                    auto_scaling_group_object.lifecycle_hooks = self.get_lifecycle_hooks(auto_scaling_group_object.auto_scaling_group_name)
+                    auto_scaling_groups.append(auto_scaling_group_object)
             
             auto_scaling_groups = []
             response = self.client.describe_auto_scaling_groups(Filters = self.filters)

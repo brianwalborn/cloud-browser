@@ -7,7 +7,9 @@
         "thumbnail": "images/autoscaling.png"
     },
     {
-        "actions": [ ],
+        "actions": [
+            { "action": "generate_conf_cons", "description": "Based on the regions and tags provided in the settings, generate a connections XML file for the mRemoteNG application" }
+        ],
         "name": "ec2",
         "thumbnail": "images/ec2.png"
     },

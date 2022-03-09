@@ -9,6 +9,12 @@ CREATE TABLE settings_exclude_tags (
     UNIQUE (tag_key, tag_value)
 );
 
+CREATE TABLE settings_putty_session_names (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    region TEXT UNIQUE NOT NULL,
+    session_name TEXT NOT NULL
+);
+
 CREATE TABLE settings_query_regions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     region TEXT UNIQUE NOT NULL

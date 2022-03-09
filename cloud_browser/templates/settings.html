@@ -133,4 +133,50 @@
             </table>
         </div>
     </div>
+    <div class="uk-section uk-section-xsmall">
+        <div class="uk-container">
+            <h3 class="uk-text-light uk-heading-line"><span>PuTTy Session Names</span></h3>
+            <span class="uk-text-meta">(For the confCons.xml generator) Name of the PuTTy session for the region.</span>
+            <table class="uk-table uk-table-small uk-table-middle">
+                <thead>
+                    <tr>
+                        <th class="uk-table-shrink">Region</th>
+                        <th class="uk-table-shrink">Session Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for session in putty_sessions %}
+                        <tr>
+                            <form method="POST">
+                                <input type="hidden" name="id" value="{{ session['id'] }}" />
+                                <td>
+                                    <label class="uk-label uk-label" >{{ session['region'] }}</label>
+                                </td>
+                                <td>
+                                    <label class="uk-label uk-label" >{{ session['session_name'] }}</label>
+                                </td>
+                                <td>
+                                    <button class="uk-button uk-button-link uk-button-small" name="remove_session" type="submit"><span class="uk-text-danger" uk-icon="icon: minus-circle"></span></button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <form method="POST">
+                            <td>
+                                <input class="uk-input uk-form-width-medium" name="region" type="text" placeholder="Region">
+                            </td>
+                            <td>
+                                <input class="uk-input uk-form-width-medium" name="session_name" type="text" placeholder="Session name">
+                            </td>
+                            <td>
+                                <button class="uk-button uk-button-link uk-button-small" name="add_session" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>
+                            </td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

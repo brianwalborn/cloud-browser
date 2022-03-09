@@ -47,7 +47,7 @@ class BaseAwsService:
         except Exception as e:
             raise Exception(e)
 
-    def __get_tags_to_ignore(self):
+    def __get_tags_to_ignore(self) -> list[Tag]:
         try:
             database = get_database()
             ignore_tags = database.execute('SELECT * FROM settings_exclude_tags').fetchall()

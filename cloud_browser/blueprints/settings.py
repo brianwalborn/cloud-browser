@@ -22,13 +22,18 @@ def index():
                 database.execute('INSERT INTO settings_exclude_tags (tag_key, tag_value) VALUES (?, ?)', (request.form['key'], request.form['value'],))
             elif 'remove_excluded_tag' in request.form:
                 database.execute('DELETE FROM settings_exclude_tags WHERE id = (?)', (request.form['id'],))
+            elif 'add_session' in request.form:
+                database.execute('INSERT INTO settings_putty_session_names (region, session_name) VALUES (?, ?)', (request.form['region'], request.form['session_name'],))
+            elif 'remove_session' in request.form:
+                database.execute('DELETE FROM settings_putty_session_names WHERE id = (?)', (request.form['id'],))
 
             database.commit()
         except Exception as e:
             flash(e, 'error')
 
+    putty_sessions = database.execute('SELECT * FROM settings_putty_session_names').fetchall()
     regions = database.execute('SELECT * FROM settings_query_regions').fetchall()
     tags = database.execute('SELECT * FROM settings_query_tags').fetchall()
     tags_to_exclude = database.execute('SELECT * FROM settings_exclude_tags').fetchall()
 
-    return render_template('settings.html', regions = regions, service = 'settings', tags = tags, tags_to_exclude = tags_to_exclude)
+    return render_template('settings.html', putty_sessions = putty_sessions, regions = regions, service = 'settings', tags = tags, tags_to_exclude = tags_to_exclude)

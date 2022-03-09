@@ -1,5 +1,5 @@
 import os
-from cloud_browser.blueprints import autoscaling, ec2, elb, home, settings
+from cloud_browser.blueprints import autoscaling, ec2, elb, home, settings, ssm
 from cloud_browser.database import database
 from flask import Flask
 
@@ -31,6 +31,9 @@ def create_app(test_config = None):
 
     app.register_blueprint(settings.bp)
     app.add_url_rule('/settings', endpoint = 'index')
+
+    app.register_blueprint(ssm.bp)
+    app.add_url_rule('/ssm', endpoint = 'index')
 
     database.init_app(app)
 

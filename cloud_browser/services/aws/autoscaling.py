@@ -13,9 +13,9 @@ class AutoScalingGroupService(BaseAwsService):
             
             return response
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)
 
-    def get_auto_scaling_groups_by_tag(self, tag_key: str, tag_values: list[str]) -> list[AutoScalingGroup]:
+    def get_auto_scaling_groups_by_tag(self) -> list[AutoScalingGroup]:
         try:
             def add_groups(auto_scaling_group, auto_scaling_groups) -> None:
                 ignore = False
@@ -24,21 +24,21 @@ class AutoScalingGroupService(BaseAwsService):
                 for dict in self.tags_to_ignore:
                     if dict in auto_scaling_group_object.tags: ignore = True
 
-                if not ignore: auto_scaling_groups.append(auto_scaling_group_object)
+                if not ignore:
+                    auto_scaling_group_object.lifecycle_hooks = sorted(self.get_lifecycle_hooks(auto_scaling_group_object.auto_scaling_group_name), key = lambda x: x.lifecycle_hook_name)
+                    
+                    auto_scaling_groups.append(auto_scaling_group_object)
             
             auto_scaling_groups = []
+            response = self.client.describe_auto_scaling_groups(Filters = self.filters)
             responses = []
-            tag_values_grouped_in_fives = [tag_values[n:n+5] for n in range(0, len(tag_values), 5)] # the describe_auto_scaling_groups call can only handle five tags at a time
 
-            for group in tag_values_grouped_in_fives:
-                response = self.client.describe_auto_scaling_groups(Filters = [{'Name': f'tag:{tag_key}', 'Values': group}])
-
-                responses.append(response)
+            responses.append(response)
+            
+            while 'NextToken' in response:
+                response = self.client.describe_auto_scaling_groups(Filters = self.filters, NextToken = response['NextToken'])
                 
-                while 'NextToken' in response:
-                    response = self.client.describe_auto_scaling_groups(Filters = [{'Name': f'tag:{tag_key}', 'Values': group}], NextToken = response['NextToken'])
-                    
-                    responses.append(response)
+                responses.append(response)
 
             with ThreadPoolExecutor(max_workers = 20) as executor:
                 for response in responses:
@@ -47,7 +47,7 @@ class AutoScalingGroupService(BaseAwsService):
 
             return sorted(auto_scaling_groups, key=lambda x: x.auto_scaling_group_name)
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)
 
     def get_lifecycle_hooks(self, auto_scaling_group_name) -> list[LifecycleHook]:
         try:
@@ -58,7 +58,7 @@ class AutoScalingGroupService(BaseAwsService):
 
             return lifecycle_hooks
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)
 
     def resume_processes(self, auto_scaling_group_name, suspended_processes):
         try:
@@ -66,4 +66,4 @@ class AutoScalingGroupService(BaseAwsService):
 
             return response
         except Exception as e:
-            print(f'\nException {type(e)}: {e}')
+            raise Exception(e)

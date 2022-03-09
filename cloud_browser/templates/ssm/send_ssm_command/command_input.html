@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="uk-text-light uk-heading-divider">Enter Command(s)</h2>
+    <form id="commands" method="POST">
+        {% if 'linux/unix' in operating_systems %}
+            <div class="uk-margin">
+                <textarea class="uk-textarea uk-background-muted command-input" name="linux_command" placeholder="Shell command (Linux)" rows="5" uk-tooltip="Shell command (Linux)"></textarea>
+            </div>
+        {% endif %}
+        {% if 'windows' in operating_systems %}
+            <div class="uk-margin">
+                <textarea class="uk-textarea uk-background-muted command-input" name="windows_command" placeholder="PowerShell command (Windows)" rows="5" uk-tooltip="PowerShell command (Windows)"></textarea>
+            </div>
+        {% endif %}
+        <a class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-left uk-position-fixed" href="/ssm/send_ssm_command/select_instances">Back</a>
+        <button class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-right uk-position-fixed" type="button" uk-toggle="target: #verify">Submit</button>
+            
+        <div id="verify" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">Submit command(s)?</h2>
+                <p>Submit entered commands to the below instances?</p>
+                <ul>
+                    {% for instance in instances %}
+                        <li>
+                            {{ instance.name }} ({{ instance.instance_id }})
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p class="uk-text-right">
+                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                        <button class="uk-button uk-button-primary" onclick="submit()" type="submit">Submit</button>
+                    </form>
+                </p>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function submit() {
+            document.getElementById("commands").submit();
+        }
+    </script>
+{% endblock %}

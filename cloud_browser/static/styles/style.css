@@ -3,30 +3,12 @@ li {
     width: 75%;
 }
 
-nav {
-    height: 2em;
-    margin: 1em auto;
-    width: 98%;
-}
-
-nav .icon {
-    float: right;
-}
-
-.content {
-    margin: 1.5em;
+.command-input {
+    font-family: Consolas,monaco,monospace;
 }
 
 .instance-id-label {
     text-transform: lowercase;
-}
-
-.logo {
-    background: url('../images/logo-cloud-browser.png') center center no-repeat;
-    background-size: contain;
-    float: left;
-    height: 100%;
-    width: 4em;
 }
 
 .service-information {
@@ -49,4 +31,17 @@ nav .icon {
 .service-tile {
     padding: 10px;
     width: 15em;
+}
+
+.ssm-command-result {
+    white-space: pre-line;
+}
+
+.ssm-command-result-icon {
+    float: right;
+    margin-top: -40px;
+}
+
+.uk-alert {
+    margin-top: 0;
 }

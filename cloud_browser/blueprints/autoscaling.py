@@ -2,7 +2,7 @@ import json
 import os
 from cloud_browser.services.custom.check_auto_scaling_groups import Scanner
 from flask import current_app as app
-from flask import Blueprint, render_template, request, url_for
+from flask import Blueprint, flash, render_template, request, url_for
 
 bp = Blueprint('autoscaling', __name__)
 
@@ -19,7 +19,14 @@ def index():
 
 @bp.route('/autoscaling/check_auto_scaling_groups')
 def check_auto_scaling_groups():
-    scanner = Scanner()
-    scanner.run()
+    auto_scaling_groups = []
 
-    return render_template('autoscaling/check_auto_scaling_groups.html', auto_scaling_groups = scanner.all_auto_scaling_groups, service = 'check_auto_scaling_groups')
+    try:
+        scanner = Scanner()
+        auto_scaling_groups.extend(scanner.get_auto_scaling_groups())
+        
+        if not len(auto_scaling_groups): flash('No results returned. Please review settings.', 'warning')
+    except Exception as e:
+        flash(e, 'error')
+
+    return render_template('autoscaling/check_auto_scaling_groups.html', auto_scaling_groups = auto_scaling_groups, service = 'check_auto_scaling_groups')

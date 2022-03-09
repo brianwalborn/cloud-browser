@@ -2,7 +2,7 @@ import json
 import os
 from cloud_browser.services.custom.check_load_balancer_health import Check
 from flask import current_app as app
-from flask import Blueprint, render_template, request, url_for
+from flask import Blueprint, flash, render_template, request, url_for
 
 bp = Blueprint('elb', __name__)
 
@@ -19,7 +19,14 @@ def index():
 
 @bp.route('/elb/check_load_balancer_health')
 def check_load_balancer_health():
-    check = Check()
-    load_balancers = check.get_load_balancer_instance_health()
+    load_balancers = []
+    
+    try:
+        check = Check()
+        load_balancers.extend(check.get_load_balancer_instance_health())
 
-    return render_template('elb/check_load_balancer_health.html', load_balancers = sorted(load_balancers, key=lambda x: x.name), service = 'check_load_balancer_health')
+        if not len(load_balancers): flash('No results returned. Please review settings.', 'warning')
+    except Exception as e:
+        flash(e, 'error')
+
+    return render_template('elb/check_load_balancer_health.html', load_balancers = load_balancers, service = 'check_load_balancer_health')

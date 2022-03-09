@@ -1,5 +1,6 @@
-import cloud_browser.globals as globals
 import cloud_browser.services.aws.elb as elb
+from cloud_browser.database.database import get_database
+from cloud_browser.models.aws.elb.load_balancer import LoadBalancer
 from concurrent.futures import ThreadPoolExecutor
 
 class Check:
@@ -7,17 +8,23 @@ class Check:
         self.load_balancers = []
 
     def get_load_balancer_instance_health(self):
-        def get_instance_health(load_balancer, service):
-            load_balancer.instance_states = service.get_instance_health(load_balancer.name)
+        try:
+            database = get_database()
+            regions = database.execute('SELECT * FROM settings_query_regions').fetchall()
 
-        for region in globals.regions:
-            service = elb.ElasticLoadBalancingService(region)
-            load_balancers = service.get_load_balancers()
+            def set_instance_health(load_balancer: LoadBalancer, service: elb.ElasticLoadBalancingService):
+                load_balancer.instance_states = service.get_instance_health(load_balancer.name)
 
-            with ThreadPoolExecutor(max_workers = 20) as executor:
-                for load_balancer in load_balancers:
-                    executor.submit(get_instance_health, load_balancer, service)
+            for region in regions:
+                service = elb.ElasticLoadBalancingService(region['region'])
+                load_balancers = service.get_load_balancers()
 
-            self.load_balancers += load_balancers
+                with ThreadPoolExecutor(max_workers = 20) as executor:
+                    for load_balancer in load_balancers:
+                        executor.submit(set_instance_health, load_balancer, service)
 
-        return self.load_balancers
+                self.load_balancers += load_balancers
+
+            return sorted(self.load_balancers, key=lambda x: x.name)
+        except Exception as e:
+            raise Exception(e)

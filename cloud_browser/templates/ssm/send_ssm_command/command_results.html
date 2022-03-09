@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="uk-text-light uk-heading-divider">Command Results</h2>
+    {% for result in results %}
+        <div class="uk-section uk-section-xsmall">
+            <pre class="uk-background-muted ssm-command-result">
+                <code class="ssm-command-result">
+                    {% if result.status.lower() == 'success' %}
+                        <span class="uk-text-success ssm-command-result-icon" uk-icon="icon: check; ratio: 1.75"></span>
+                    {% else %}
+                        <span class="uk-text-danger ssm-command-result-icon" uk-icon="icon: close; ratio: 1.75"></span>
+                    {% endif %}
+                    Instance ID: {{ result.instance_id }}
+                    Instance Name: {{ result.instance_name }}
+                    Command ID: {{ result.command_id }}
+                    Status: {{ result.status }}
+                    Output:
+                        {% if result.status.lower() == 'success' %}
+                            {{ result.output }}
+                        {% else %}
+                            {{ result.error }}
+                        {% endif %}
+                </code>
+            </pre>
+        </div>
+    {% endfor %}
+    <a class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-right uk-position-fixed" href="/ssm/send_ssm_command/select_instances">Run Another</a>
+    <span style="display: none"></span> <!-- clearing uikit default margin on last element in a <content> block -->
+{% endblock %}

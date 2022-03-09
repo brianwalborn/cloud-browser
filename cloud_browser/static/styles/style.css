@@ -3,6 +3,10 @@ li {
     width: 75%;
 }
 
+.command-input {
+    font-family: Consolas,monaco,monospace;
+}
+
 .instance-id-label {
     text-transform: lowercase;
 }
@@ -27,6 +31,15 @@ li {
 .service-tile {
     padding: 10px;
     width: 15em;
+}
+
+.ssm-command-result {
+    white-space: pre-line;
+}
+
+.ssm-command-result-icon {
+    float: right;
+    margin-top: -40px;
 }
 
 .uk-alert {

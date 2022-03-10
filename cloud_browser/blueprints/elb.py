@@ -25,7 +25,7 @@ def check_load_balancer_health():
         check = Check()
         load_balancers.extend(check.get_load_balancer_instance_health())
 
-        if not len(load_balancers): flash('No results returned. Please review settings.', 'warning')
+        if not load_balancers: flash('No results returned. Please review settings.', 'warning')
     except Exception as e:
         flash(e, 'error')
 

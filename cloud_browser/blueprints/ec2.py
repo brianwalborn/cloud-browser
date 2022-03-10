@@ -19,11 +19,12 @@ def index():
 
 @bp.route('/ec2/generate_conf_cons')
 def generate_conf_cons():
+    xml = ''
+    
     try:
         generator = Generator()
         xml = generator.run()
     except Exception as e:
         flash(e, 'error')
-        xml = ''
 
     return render_template('ec2/generate_conf_cons.html', service = 'generate_conf_cons', xml = xml)

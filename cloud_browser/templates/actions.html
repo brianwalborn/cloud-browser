@@ -6,7 +6,7 @@
         <ul>
             {% for action in actions %}
                 <li>
-                    <a class="action" href="{{ service }}/{{ action['action'] }}">{{ action['action'] }}</a> -- <span>{{ action['description'] }}</span>
+                    <a class="action" href="{{ service }}/{{ action['action'] }}" onclick="loading()">{{ action['action'] }}</a> -- <span>{{ action['description'] }}</span>
                 </li>
             {% endfor %}
         </ul>

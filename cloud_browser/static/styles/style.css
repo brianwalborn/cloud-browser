@@ -3,6 +3,11 @@ li {
     width: 75%;
 }
 
+#loader {
+    display: none;
+    z-index: 1011; /* 1 greater than the uikit modal z-index */
+}
+
 .command-input {
     font-family: Consolas,monaco,monospace;
 }

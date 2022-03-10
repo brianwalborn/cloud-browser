@@ -5,7 +5,7 @@
     <div class="uk-grid-small" uk-grid>
         {% for service in services %}
             <div>
-                <a href="{{ service['name'] }}">
+                <a href="{{ service['name'] }}" onclick="loading()">
                     <div class="service-tile uk-button uk-button-default">
                         <div class="service-information">
                             <img class="service-thumbnail" src="{{ url_for('static', filename = service['thumbnail']) }}" title="thumbnail">

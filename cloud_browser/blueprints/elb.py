@@ -2,7 +2,7 @@ import json
 import os
 from cloud_browser.services.custom.check_load_balancer_health import Check
 from flask import current_app as app
-from flask import Blueprint, flash, render_template, request, url_for
+from flask import Blueprint, flash, render_template
 
 bp = Blueprint('elb', __name__)
 

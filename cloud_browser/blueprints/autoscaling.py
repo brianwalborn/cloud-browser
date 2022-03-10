@@ -2,7 +2,7 @@ import json
 import os
 from cloud_browser.services.custom.check_auto_scaling_groups import Scanner
 from flask import current_app as app
-from flask import Blueprint, flash, render_template, request, url_for
+from flask import Blueprint, flash, render_template
 
 bp = Blueprint('autoscaling', __name__)
 

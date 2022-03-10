@@ -30,7 +30,7 @@
                     <tr>
                         <form method="POST">
                             <td>
-                                <input class="uk-input uk-form-width-medium" name="region" type="text" placeholder="Add region">
+                                <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'region' in invalid_fields }}" name="region" type="text" placeholder="Add region">
                             </td>
                             <td>
                                 <button class="uk-button uk-button-link uk-button-small" name="add_region" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>
@@ -73,10 +73,10 @@
                     <tr>
                         <form method="POST">
                             <td>
-                                <input class="uk-input uk-form-width-medium" name="key" type="text" placeholder="Tag key">
+                                <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'key' in invalid_fields }}" name="key" type="text" placeholder="Tag key">
                             </td>
                             <td>
-                                <input class="uk-input uk-form-width-medium" name="value" type="text" placeholder="Tag value">
+                                <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'value' in invalid_fields }}" name="value" type="text" placeholder="Tag value">
                             </td>
                             <td>
                                 <button class="uk-button uk-button-link uk-button-small" name="add_tag" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>
@@ -119,10 +119,10 @@
                     <tr>
                         <form method="POST">
                             <td>
-                                <input class="uk-input uk-form-width-medium" name="key" type="text" placeholder="Tag key">
+                                <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'excluded_key' in invalid_fields }}" name="excluded_key" type="text" placeholder="Tag key">
                             </td>
                             <td>
-                                <input class="uk-input uk-form-width-medium" name="value" type="text" placeholder="Tag value">
+                                <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'excluded_value' in invalid_fields }}" name="excluded_value" type="text" placeholder="Tag value">
                             </td>
                             <td>
                                 <button class="uk-button uk-button-link uk-button-small" name="add_excluded_tag" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>
@@ -165,10 +165,10 @@
                     <tr>
                         <form method="POST">
                             <td>
-                                <input class="uk-input uk-form-width-medium" name="region" type="text" placeholder="Region">
+                                <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'session_region' in invalid_fields }}" name="session_region" type="text" placeholder="Region">
                             </td>
                             <td>
-                                <input class="uk-input uk-form-width-medium" name="session_name" type="text" placeholder="Session name">
+                                <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'session_name' in invalid_fields }}" name="session_name" type="text" placeholder="Session name">
                             </td>
                             <td>
                                 <button class="uk-button uk-button-link uk-button-small" name="add_session" type="submit"><span class="uk-text-success" uk-icon="icon: plus-circle"></span></button>

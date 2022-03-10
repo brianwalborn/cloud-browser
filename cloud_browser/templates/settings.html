@@ -18,7 +18,7 @@
                         <tr>
                             <form method="POST">
                                 <td>
-                                    <label class="uk-label uk-label" >{{ region['region'] }}</label>
+                                    <label class="uk-label settings-label" >{{ region['region'] }}</label>
                                     <input type="hidden" name="id" value="{{ region['id'] }}" />
                                 </td>
                                 <td>
@@ -59,10 +59,10 @@
                             <form method="POST">
                                 <input type="hidden" name="id" value="{{ tag['id'] }}" />
                                 <td>
-                                    <label class="uk-label uk-label" >{{ tag['tag_key'] }}</label>
+                                    <label class="uk-label settings-label" >{{ tag['tag_key'] }}</label>
                                 </td>
                                 <td>
-                                    <label class="uk-label uk-label" >{{ tag['tag_value'] }}</label>
+                                    <label class="uk-label settings-label" >{{ tag['tag_value'] }}</label>
                                 </td>
                                 <td>
                                     <button class="uk-button uk-button-link uk-button-small" name="remove_tag" type="submit"><span class="uk-text-danger" uk-icon="icon: minus-circle"></span></button>
@@ -105,10 +105,10 @@
                             <form method="POST">
                                 <input type="hidden" name="id" value="{{ tag['id'] }}" />
                                 <td>
-                                    <label class="uk-label uk-label" >{{ tag['tag_key'] }}</label>
+                                    <label class="uk-label settings-label" >{{ tag['tag_key'] }}</label>
                                 </td>
                                 <td>
-                                    <label class="uk-label uk-label" >{{ tag['tag_value'] }}</label>
+                                    <label class="uk-label settings-label" >{{ tag['tag_value'] }}</label>
                                 </td>
                                 <td>
                                     <button class="uk-button uk-button-link uk-button-small" name="remove_excluded_tag" type="submit"><span class="uk-text-danger" uk-icon="icon: minus-circle"></span></button>
@@ -151,10 +151,10 @@
                             <form method="POST">
                                 <input type="hidden" name="id" value="{{ session['id'] }}" />
                                 <td>
-                                    <label class="uk-label uk-label" >{{ session['region'] }}</label>
+                                    <label class="uk-label settings-label" >{{ session['region'] }}</label>
                                 </td>
                                 <td>
-                                    <label class="uk-label uk-label" >{{ session['session_name'] }}</label>
+                                    <label class="uk-label settings-label" >{{ session['session_name'] }}</label>
                                 </td>
                                 <td>
                                     <button class="uk-button uk-button-link uk-button-small" name="remove_session" type="submit"><span class="uk-text-danger" uk-icon="icon: minus-circle"></span></button>

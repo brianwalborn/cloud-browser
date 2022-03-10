@@ -33,6 +33,10 @@ li {
     width: 15em;
 }
 
+.settings-label {
+    text-transform: none;
+}
+
 .ssm-command-result {
     white-space: pre-line;
 }

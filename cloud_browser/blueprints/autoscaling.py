@@ -25,7 +25,7 @@ def check_auto_scaling_groups():
         scanner = Scanner()
         auto_scaling_groups.extend(scanner.get_auto_scaling_groups())
         
-        if not len(auto_scaling_groups): flash('No results returned. Please review settings.', 'warning')
+        if not auto_scaling_groups: flash('No results returned. Please review settings.', 'warning')
     except Exception as e:
         flash(e, 'error')
 

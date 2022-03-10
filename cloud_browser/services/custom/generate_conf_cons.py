@@ -18,6 +18,8 @@ class Generator:
         try:
             tags = self.database.execute('SELECT * FROM settings_query_tags').fetchall()
 
+            if not tags: raise Exception('No tags specified. Please review settings.')
+
             for tag in tags:
                 grouping = tag['tag_value']
 

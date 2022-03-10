@@ -97,6 +97,8 @@ def select_instances():
             context.clear()
             orchestrator = Orchestrator()
             context.all_instances = orchestrator.fetch_instances()
+
+            if not context.all_instances: flash('No results returned. Please review settings.', 'warning')
     except Exception as e:
         flash(e, 'error')
 

@@ -2,7 +2,7 @@ import json
 import os
 from cloud_browser.services.custom.generate_conf_cons import Generator
 from flask import current_app as app
-from flask import Blueprint, flash, render_template, request, url_for
+from flask import Blueprint, flash, render_template
 
 bp = Blueprint('ec2', __name__)
 
@@ -19,11 +19,12 @@ def index():
 
 @bp.route('/ec2/generate_conf_cons')
 def generate_conf_cons():
+    xml = ''
+    
     try:
         generator = Generator()
         xml = generator.run()
     except Exception as e:
         flash(e, 'error')
-        xml = ''
 
     return render_template('ec2/generate_conf_cons.html', service = 'generate_conf_cons', xml = xml)

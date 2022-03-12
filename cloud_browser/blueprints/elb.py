@@ -2,7 +2,7 @@ import json
 import os
 from cloud_browser.services.custom.check_load_balancer_health import Check
 from flask import current_app as app
-from flask import Blueprint, flash, render_template, request, url_for
+from flask import Blueprint, flash, render_template
 
 bp = Blueprint('elb', __name__)
 
@@ -25,7 +25,7 @@ def check_load_balancer_health():
         check = Check()
         load_balancers.extend(check.get_load_balancer_instance_health())
 
-        if not len(load_balancers): flash('No results returned. Please review settings.', 'warning')
+        if not load_balancers: flash('No results returned. Please review settings.', 'warning')
     except Exception as e:
         flash(e, 'error')
 

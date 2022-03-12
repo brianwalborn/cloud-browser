@@ -3,6 +3,11 @@ li {
     width: 75%;
 }
 
+#loader {
+    display: none;
+    z-index: 1011; /* 1 greater than the uikit modal z-index */
+}
+
 .command-input {
     font-family: Consolas,monaco,monospace;
 }
@@ -33,6 +38,10 @@ li {
     width: 15em;
 }
 
+.settings-label {
+    text-transform: none;
+}
+
 .ssm-command-result {
     white-space: pre-line;
 }
@@ -43,5 +52,6 @@ li {
 }
 
 .uk-alert {
+    margin-bottom: 0;
     margin-top: 0;
 }

@@ -1,7 +1,7 @@
 import json
 import os
 from flask import current_app as app
-from flask import Blueprint, render_template, request, url_for
+from flask import Blueprint, render_template
 
 bp = Blueprint('home', __name__)
 

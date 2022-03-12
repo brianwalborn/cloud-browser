@@ -2,7 +2,7 @@ import json
 import os
 from cloud_browser.services.custom.check_auto_scaling_groups import Scanner
 from flask import current_app as app
-from flask import Blueprint, flash, render_template, request, url_for
+from flask import Blueprint, flash, render_template
 
 bp = Blueprint('autoscaling', __name__)
 
@@ -25,7 +25,7 @@ def check_auto_scaling_groups():
         scanner = Scanner()
         auto_scaling_groups.extend(scanner.get_auto_scaling_groups())
         
-        if not len(auto_scaling_groups): flash('No results returned. Please review settings.', 'warning')
+        if not auto_scaling_groups: flash('No results returned. Please review settings.', 'warning')
     except Exception as e:
         flash(e, 'error')
 

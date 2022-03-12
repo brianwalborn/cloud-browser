@@ -5,16 +5,20 @@
     <form id="commands" method="POST">
         {% if 'linux/unix' in operating_systems %}
             <div class="uk-margin">
-                <textarea class="uk-textarea uk-background-muted command-input" name="linux_command" placeholder="Shell command (Linux)" rows="5" uk-tooltip="Shell command (Linux)"></textarea>
+                <textarea class="uk-textarea uk-background-muted command-input {{'uk-form-danger' if 'linux_command' in invalid_fields }}" name="linux_command" placeholder="Shell command (Linux)" rows="5" uk-tooltip="Shell command (Linux)"></textarea>
             </div>
         {% endif %}
         {% if 'windows' in operating_systems %}
             <div class="uk-margin">
-                <textarea class="uk-textarea uk-background-muted command-input" name="windows_command" placeholder="PowerShell command (Windows)" rows="5" uk-tooltip="PowerShell command (Windows)"></textarea>
+                <textarea class="uk-textarea uk-background-muted command-input {{'uk-form-danger' if 'windows_command' in invalid_fields }}" name="windows_command" placeholder="PowerShell command (Windows)" rows="5" uk-tooltip="PowerShell command (Windows)"></textarea>
             </div>
         {% endif %}
-        <a class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-left uk-position-fixed" href="/ssm/send_ssm_command/select_instances">Back</a>
-        <button class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-right uk-position-fixed" type="button" uk-toggle="target: #verify">Submit</button>
+        <a class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-left uk-position-fixed" href="/ssm/send_ssm_command/select_instances" onclick="loading()">Back</a>
+        {% if get_flashed_messages() and not invalid_fields %}
+            <button class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-right uk-position-fixed" type="button" uk-toggle="target: #verify" disabled>Submit</button>
+        {% else %}
+            <button class="uk-button uk-button-primary uk-button-large uk-position-small uk-position-bottom-right uk-position-fixed" type="button" uk-toggle="target: #verify">Submit</button>
+        {% endif %}
             
         <div id="verify" uk-modal>
             <div class="uk-modal-dialog uk-modal-body">
@@ -29,7 +33,7 @@
                 </ul>
                 <p class="uk-text-right">
                         <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                        <button class="uk-button uk-button-primary" onclick="submit()" type="submit">Submit</button>
+                        <button class="uk-button uk-button-primary" onclick="loading(); submit()" type="submit">Submit</button>
                     </form>
                 </p>
             </div>

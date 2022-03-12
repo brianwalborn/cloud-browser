@@ -1,12 +1,11 @@
 import flask
 import json
 import os
+from cloud_browser.blueprints.utils.validator import Validator
 from cloud_browser.models.aws.ec2.instance import Instance
 from cloud_browser.services.custom.send_ssm_command import Orchestrator
 from flask import current_app as app
-from flask import Blueprint, flash, render_template, request, url_for
-
-bp = Blueprint('ssm', __name__)
+from flask import Blueprint, flash, render_template, request
 
 class Context:
     def __init__(self):
@@ -19,15 +18,18 @@ class Context:
         self.selected_instances: list[Instance] = []
         self.sent_commands = []
 
+bp = Blueprint('ssm', __name__)
 context = Context()
+validator = Validator()
 
 @bp.route('/ssm/send_ssm_command/command_input', methods = ('GET', 'POST'))
 def command_input():
     operating_systems = set()
+    validator.invalid_fields.clear()
 
     try:
-        if request.method == 'POST':
-            if 'linux_command' in request.form or 'windows_command' in request.form:
+        if request.method == 'POST' and validator.validate_required_fields(request.form):
+            if ('linux_command' in request.form or 'windows_command' in request.form):
                 orchestrator = Orchestrator()
 
                 if 'linux_command' in request.form: orchestrator.linux_command = request.form['linux_command']
@@ -45,7 +47,7 @@ def command_input():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('ssm/send_ssm_command/command_input.html', instances = context.selected_instances, operating_systems = operating_systems, service = 'send_ssm_command')
+    return render_template('ssm/send_ssm_command/command_input.html', instances = context.selected_instances, invalid_fields = validator.invalid_fields, operating_systems = operating_systems, service = 'send_ssm_command')
 
 @bp.route('/ssm/send_ssm_command/command_results')
 def command_results():
@@ -97,6 +99,8 @@ def select_instances():
             context.clear()
             orchestrator = Orchestrator()
             context.all_instances = orchestrator.fetch_instances()
+
+            if not context.all_instances: flash('No results returned. Please review settings.', 'warning')
     except Exception as e:
         flash(e, 'error')
 

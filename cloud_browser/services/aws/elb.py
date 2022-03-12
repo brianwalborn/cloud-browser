@@ -1,4 +1,3 @@
-from tkinter import E
 from cloud_browser.models.aws.elb.instance_state import InstanceState
 from cloud_browser.models.aws.elb.load_balancer import LoadBalancer
 from cloud_browser.models.aws.elb.tag_description import TagDescription

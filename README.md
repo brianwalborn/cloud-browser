@@ -3,6 +3,7 @@
 ### Prerequisites
 - [Git](https://git-scm.com/downloads) (of course!)
 - [Python 3.9](https://www.python.org/downloads/release/python-395/) or greater
+- [AWS CLI configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config)
 ### Initial set up (Linux, Mac, & Windows)
 1. Clone the repository
 ```sh

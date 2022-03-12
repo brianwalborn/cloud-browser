@@ -45,7 +45,7 @@ class AutoScalingGroupService(BaseAwsService):
                     for auto_scaling_group in response['AutoScalingGroups']:
                         executor.submit(add_groups, auto_scaling_group, auto_scaling_groups)
 
-            return sorted(auto_scaling_groups, key=lambda x: x.auto_scaling_group_name)
+            return sorted(auto_scaling_groups, key = lambda x: x.auto_scaling_group_name)
         except Exception as e:
             raise Exception(e)
 

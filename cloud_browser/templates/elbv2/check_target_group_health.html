@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="uk-text-light uk-heading-divider">Target Groups</h2>
+    <table class="uk-table uk-table-divider">
+        <thead>
+            <tr>
+                <th>Target Group</th>
+                <th>Instances</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for target_group in target_groups %}
+                <tr>
+                    <td>{{ target_group }}</td>
+                    <td>
+                        {% for health_description in target_groups[target_group] %}
+                            {% if health_description.target_health.state.lower() == 'healthy' %}
+                                <span class="uk-label uk-label-success instance-id-label" uk-tooltip="{{ health_description.target_health.state }} ({{ health_description.target_health.reason }})">{{ health_description.target.id }}</span>
+                            {% elif health_description.target_health.state.lower() in ['unavailable', 'unhealthy'] %}
+                                <span class="uk-label uk-label-danger instance-id-label" uk-tooltip="{{ health_description.target_health.state }} ({{ health_description.target_health.reason }})">{{ health_description.target.id }}</span>
+                            {% elif health_description.target_health.state.lower() in ['draining'] %}
+                                <span class="uk-label uk-label-warning instance-id-label" uk-tooltip="{{ health_description.target_health.state }} ({{ health_description.target_health.reason }})">{{ health_description.target.id }}</span>
+                            {% else %}
+                                <span class="uk-label instance-id-label" uk-tooltip="{{ health_description.target_health.state }} ({{ health_description.target_health.reason }})">{{ health_description.target.id }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

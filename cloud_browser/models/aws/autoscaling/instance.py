@@ -1,4 +1,4 @@
-from cloud_browser.models.base import BaseAwsResource
+from cloud_browser.models.aws.base import BaseAwsResource
 
 class Instance(BaseAwsResource):
     def __init__(self, auto_scaling_group_instance_json):

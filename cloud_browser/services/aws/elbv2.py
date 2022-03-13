@@ -1,7 +1,7 @@
 from cloud_browser.models.aws.elbv2.tag_description import TagDescription
 from cloud_browser.models.aws.elbv2.target_group import TargetGroup
 from cloud_browser.models.aws.elbv2.target_health_description import TargetHealthDescription
-from cloud_browser.services.base import BaseAwsService
+from cloud_browser.services.aws.base import BaseAwsService
 from concurrent.futures import ThreadPoolExecutor
 
 class ElasticLoadBalancingV2Service(BaseAwsService):
@@ -9,7 +9,7 @@ class ElasticLoadBalancingV2Service(BaseAwsService):
         super().__init__('elbv2', region)
 
     def __get_tag_descriptions(self, target_groups: list[TargetGroup]) -> list[TagDescription]:
-        def call(group, tag_descriptions) -> None:
+        def __call(group: list[str], tag_descriptions: list[TagDescription]) -> None:
             response = self.client.describe_tags(ResourceArns = group)
                     
             for tag_description in response['TagDescriptions']:
@@ -24,13 +24,15 @@ class ElasticLoadBalancingV2Service(BaseAwsService):
             tag_descriptions: list[TagDescription] = []
             
             with ThreadPoolExecutor(max_workers = 20) as executor:
-                for group in arn_groups: executor.submit(call, group, tag_descriptions)
+                for group in arn_groups: executor.submit(__call, group, tag_descriptions)
                     
             return tag_descriptions
         except Exception as e:
             raise Exception(e)
 
     def get_target_groups(self) -> list[TargetGroup]:
+        def __append_target_group(target_group_json, target_groups: list[TargetGroup]) -> None: target_groups.append(TargetGroup(target_group_json))
+
         try:
             response: dict = self.client.describe_target_groups()
             responses: list[dict] = []
@@ -43,9 +45,10 @@ class ElasticLoadBalancingV2Service(BaseAwsService):
 
                 responses.append(response)
 
-            for response in responses:
-                for target_group in response['TargetGroups']:
-                    target_groups.append(TargetGroup(target_group))
+            with ThreadPoolExecutor(max_workers = 20) as executor:
+                for response in responses:
+                    for target_group in response['TargetGroups']:
+                        executor.submit(__append_target_group, target_group, target_groups)
 
             tag_descriptions = self.__get_tag_descriptions(target_groups)
 
@@ -62,10 +65,9 @@ class ElasticLoadBalancingV2Service(BaseAwsService):
             raise(e)
 
     def get_target_health(self, target_group_arn: str) -> list[TargetHealthDescription]:
-        target_health_descriptions: list[TargetHealthDescription] = []
-
         try:
             response = self.client.describe_target_health(TargetGroupArn = target_group_arn)
+            target_health_descriptions: list[TargetHealthDescription] = []
 
             for description in response['TargetHealthDescriptions']:
                 target_health_descriptions.append(TargetHealthDescription(target_group_arn, description))

@@ -1,6 +1,5 @@
 from cloud_browser.blueprints.utils.validator import Validator
 from cloud_browser.database.database import get_database
-from flask import current_app as app
 from flask import Blueprint, flash, render_template, request
 
 bp = Blueprint('settings', __name__)

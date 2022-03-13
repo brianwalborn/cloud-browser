@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h2 class="uk-text-light uk-heading-divider">Suspended Processes</h2>
+    <table class="uk-table uk-table-divider">
+        <thead>
+            <tr>
+                <th>Auto Scaling Group</th>
+                <th>Suspended Processes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for auto_scaling_group in auto_scaling_groups %}
+                <tr>
+                    <td>{{ auto_scaling_group.auto_scaling_group_name }}</td>
+                    <td>
+                        {% for suspended_process in auto_scaling_group.suspended_processes %}
+                            <span class="uk-label instance-id-label">{{ suspended_process.process_name }}</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

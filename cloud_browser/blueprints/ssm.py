@@ -1,10 +1,7 @@
 import flask
-import json
-import os
 from cloud_browser.blueprints.utils.validator import Validator
 from cloud_browser.models.aws.ec2.instance import Instance
-from cloud_browser.services.custom.send_ssm_command import Orchestrator
-from flask import current_app as app
+from cloud_browser.tasks.send_ssm_command import SendSsmCommand
 from flask import Blueprint, flash, render_template, request
 
 class Context:
@@ -30,12 +27,12 @@ def command_input():
     try:
         if request.method == 'POST' and validator.validate_required_fields(request.form):
             if ('linux_command' in request.form or 'windows_command' in request.form):
-                orchestrator = Orchestrator()
+                task = SendSsmCommand()
 
-                if 'linux_command' in request.form: orchestrator.linux_command = request.form['linux_command']
-                if 'windows_command' in request.form: orchestrator.windows_command = request.form['windows_command']
+                if 'linux_command' in request.form: task.linux_command = request.form['linux_command']
+                if 'windows_command' in request.form: task.windows_command = request.form['windows_command']
 
-                context.sent_commands = orchestrator.send(context.selected_instances)
+                context.sent_commands = task.send_commands(context.selected_instances)
 
                 return flask.redirect('/ssm/send_ssm_command/command_results')
         else:
@@ -54,8 +51,7 @@ def command_results():
     results = []
 
     try:
-        orchestrator = Orchestrator()
-        results = orchestrator.get_command_results(context.sent_commands)
+        results = SendSsmCommand().get_command_results(context.sent_commands)
 
         for result in results:
             for instance in context.selected_instances:
@@ -68,17 +64,6 @@ def command_results():
     context.clear()
         
     return render_template('ssm/send_ssm_command/command_results.html', results = results, service = 'send_ssm_command')
-
-@bp.route('/ssm')
-def index():
-    f = open(os.path.join(app.static_folder, 'data', 'services.json'))
-    services = json.load(f)
-    actions = []
-
-    for service in services: 
-        if service['name'] == 'ssm': actions = service['actions']
-
-    return render_template('actions.html', service = 'ssm', actions = actions)
 
 @bp.route('/ssm/send_ssm_command')
 def redirect():
@@ -97,8 +82,7 @@ def select_instances():
             return flask.redirect('/ssm/send_ssm_command/command_input')
         else:
             context.clear()
-            orchestrator = Orchestrator()
-            context.all_instances = orchestrator.fetch_instances()
+            context.all_instances = SendSsmCommand().get_instances()
 
             if not context.all_instances: flash('No results returned. Please review settings.', 'warning')
     except Exception as e:

@@ -1,6 +1,6 @@
 from cloud_browser.models.aws.ec2.image import Image
 from cloud_browser.models.aws.ec2.instance import Instance
-from cloud_browser.services.base import BaseAwsService
+from cloud_browser.services.aws.base import BaseAwsService
 from concurrent.futures import ThreadPoolExecutor
 
 class ElasticComputeCloudService(BaseAwsService):
@@ -15,19 +15,19 @@ class ElasticComputeCloudService(BaseAwsService):
         except Exception as e:
             raise Exception(e)
 
-    def get_instances_by_tags(self) -> list[Instance]:
+    def get_instances(self) -> list[Instance]:
+        def __add_instance(instance, instances) -> None:
+            ignore = False
+            instance_object = Instance(instance)
+
+            for tag in self.tags_to_ignore:
+                if tag in instance_object.tags: ignore = True
+
+            if not ignore:
+                instance_object.image = self.describe_image(instance_object.image_id)
+                instances.append(instance_object)
+
         try:
-            def add_instance(instance, instances) -> None:
-                ignore = False
-                instance_object = Instance(instance)
-
-                for tag in self.tags_to_ignore:
-                    if tag in instance_object.tags: ignore = True
-
-                if not ignore:
-                    instance_object.image = self.describe_image(instance_object.image_id)
-                    instances.append(instance_object)
-
             instances = []
             responses = []
 
@@ -44,7 +44,7 @@ class ElasticComputeCloudService(BaseAwsService):
                 for response in responses:
                     for reservation in response['Reservations']:
                         for instance in reservation['Instances']:
-                            executor.submit(add_instance, instance, instances)
+                            executor.submit(__add_instance, instance, instances)
     
             return instances
         except Exception as e:

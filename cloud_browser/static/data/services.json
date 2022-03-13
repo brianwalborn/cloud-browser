@@ -1,35 +1,36 @@
 [
     {
-        "actions": [
-            { "action": "check_auto_scaling_groups", "description": "Display auto scaling group lifecycle hooks and suspended processes" }
+        "tasks": [
+            { "task": "get_life_cycle_hooks", "description": "Display auto scaling group life cycle hooks" },
+            { "task": "get_suspended_processes", "description": "Display auto scaling group suspended processes" }
         ],
         "name": "autoscaling",
         "thumbnail": "images/autoscaling.png"
     },
     {
-        "actions": [
-            { "action": "generate_conf_cons", "description": "Based on the regions and tags provided in the settings, generate a connections XML file for the mRemoteNG application" }
+        "tasks": [
+            { "task": "generate_conf_cons", "description": "Based on the regions and tags provided in the settings, generate a connections XML file for the mRemoteNG application" }
         ],
         "name": "ec2",
         "thumbnail": "images/ec2.png"
     },
     {
-        "actions": [
-            { "action": "check_load_balancer_health", "description": "Display classic load balancer instance health" }
+        "tasks": [
+            { "task": "get_load_balancer_health", "description": "Display classic load balancer instance health" }
         ],
         "name": "elb",
         "thumbnail": "images/elb.png"
     },
     {
-        "actions": [
-            { "action": "check_target_group_health", "description": "Display target group instance health" }
+        "tasks": [
+            { "task": "get_target_group_health", "description": "Display target group instance health" }
         ],
         "name": "elbv2",
         "thumbnail": "images/elb.png"
     },
     {
-        "actions": [
-            { "action": "send_ssm_command", "description": "Send a command via SSM to an instance or group of instances" }
+        "tasks": [
+            { "task": "send_ssm_command", "description": "Send a command via SSM to an instance or group of instances" }
         ],
         "name": "ssm",
         "thumbnail": "images/ssm.png"

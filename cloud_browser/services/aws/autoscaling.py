@@ -1,6 +1,6 @@
 from cloud_browser.models.aws.autoscaling.auto_scaling_group import AutoScalingGroup
 from cloud_browser.models.aws.autoscaling.lifecycle_hook import LifecycleHook
-from cloud_browser.services.base import BaseAwsService
+from cloud_browser.services.aws.base import BaseAwsService
 from concurrent.futures import ThreadPoolExecutor
 
 class AutoScalingGroupService(BaseAwsService):
@@ -15,20 +15,20 @@ class AutoScalingGroupService(BaseAwsService):
         except Exception as e:
             raise Exception(e)
 
-    def get_auto_scaling_groups_by_tag(self) -> list[AutoScalingGroup]:
+    def get_auto_scaling_groups(self) -> list[AutoScalingGroup]:
+        def __add_groups(auto_scaling_group, auto_scaling_groups) -> None:
+            ignore = False
+            auto_scaling_group_object = AutoScalingGroup(auto_scaling_group)
+
+            for dict in self.tags_to_ignore:
+                if dict in auto_scaling_group_object.tags: ignore = True
+
+            if not ignore:
+                auto_scaling_group_object.lifecycle_hooks = sorted(self.get_lifecycle_hooks(auto_scaling_group_object.auto_scaling_group_name), key = lambda x: x.lifecycle_hook_name)
+                
+                auto_scaling_groups.append(auto_scaling_group_object)
+
         try:
-            def add_groups(auto_scaling_group, auto_scaling_groups) -> None:
-                ignore = False
-                auto_scaling_group_object = AutoScalingGroup(auto_scaling_group)
-
-                for dict in self.tags_to_ignore:
-                    if dict in auto_scaling_group_object.tags: ignore = True
-
-                if not ignore:
-                    auto_scaling_group_object.lifecycle_hooks = sorted(self.get_lifecycle_hooks(auto_scaling_group_object.auto_scaling_group_name), key = lambda x: x.lifecycle_hook_name)
-                    
-                    auto_scaling_groups.append(auto_scaling_group_object)
-            
             auto_scaling_groups = []
             response = self.client.describe_auto_scaling_groups(Filters = self.filters)
             responses = []
@@ -43,7 +43,7 @@ class AutoScalingGroupService(BaseAwsService):
             with ThreadPoolExecutor(max_workers = 20) as executor:
                 for response in responses:
                     for auto_scaling_group in response['AutoScalingGroups']:
-                        executor.submit(add_groups, auto_scaling_group, auto_scaling_groups)
+                        executor.submit(__add_groups, auto_scaling_group, auto_scaling_groups)
 
             return sorted(auto_scaling_groups, key = lambda x: x.auto_scaling_group_name)
         except Exception as e:

@@ -1,5 +1,5 @@
 import os
-from cloud_browser.blueprints import autoscaling, ec2, elb, elbv2, home, settings, ssm
+from cloud_browser.blueprints import autoscaling, base, ec2, elb, elbv2, settings, ssm
 from cloud_browser.database import database
 from flask import Flask
 
@@ -18,25 +18,25 @@ def create_app(test_config = None):
     except OSError: pass
 
     app.register_blueprint(autoscaling.bp)
-    app.add_url_rule('/autoscaling', endpoint = 'index')
+    app.add_url_rule('/autoscaling/<string:task>', endpoint = '')
 
     app.register_blueprint(ec2.bp)
-    app.add_url_rule('/ec2', endpoint = 'index')
+    app.add_url_rule('/ec2/<string:task>', endpoint = '')
 
     app.register_blueprint(elb.bp)
-    app.add_url_rule('/elb', endpoint = 'index')
+    app.add_url_rule('/elb/<string:task>', endpoint = '')
 
     app.register_blueprint(elbv2.bp)
-    app.add_url_rule('/elbv2', endpoint = 'index')
+    app.add_url_rule('/elbv2/<string:task>', endpoint = '')
 
-    app.register_blueprint(home.bp)
+    app.register_blueprint(base.bp)
     app.add_url_rule('/', endpoint = 'index')
 
     app.register_blueprint(settings.bp)
     app.add_url_rule('/settings', endpoint = 'index')
 
     app.register_blueprint(ssm.bp)
-    app.add_url_rule('/ssm', endpoint = 'index')
+    app.add_url_rule('/ssm/<string:task>', endpoint = '')
 
     database.init_app(app)
 

@@ -1,12 +1,12 @@
 import cloud_browser.services.aws.ec2 as ec2
 import uuid
-from cloud_browser.database.database import get_database
 from cloud_browser.models.custom.conf_cons_connection import ConfConsConnection
+from cloud_browser.tasks.base import BaseTask
 
-class Generator:
+class GenerateConfCons(BaseTask):
     def __init__(self):
+        super().__init__()
         self.confCons = ''
-        self.database = get_database()
 
     def __add_connection(self, connection: ConfConsConnection) -> None:
         if connection.operating_system.lower() == 'windows':
@@ -16,12 +16,8 @@ class Generator:
         
     def __fill_conf_cons(self) -> None:
         try:
-            tags = self.database.execute('SELECT * FROM settings_query_tags').fetchall()
-
-            if not tags: raise Exception('No tags specified. Please review settings.')
-
-            for tag in tags:
-                grouping = tag['tag_value']
+            for tag in self.tags():
+                grouping = tag.value
 
                 self.confCons += f'\t<Node Name="{grouping}" Type="Container" Expanded="false" Descr="" Icon="mRemoteNG" Panel="General" Id="{str(uuid.uuid4())}" Username="" Domain="" Password="" Hostname="" Protocol="RDP" PuttySession="Default Settings" Port="3389" ConnectToConsole="false" UseCredSsp="true" RenderingEngine="IE" ICAEncryptionStrength="EncrBasic" RDPAuthenticationLevel="NoAuth" RDPMinutesToIdleTimeout="0" RDPAlertIdleTimeout="false" LoadBalanceInfo="" Colors="Colors16Bit" Resolution="FitToWindow" AutomaticResize="true" DisplayWallpaper="false" DisplayThemes="false" EnableFontSmoothing="false" EnableDesktopComposition="false" CacheBitmaps="false" RedirectDiskDrives="false" RedirectPorts="false" RedirectPrinters="false" RedirectSmartCards="false" RedirectSound="DoNotPlay" SoundQuality="Dynamic" RedirectKeys="false" Connected="false" PreExtApp="" PostExtApp="" MacAddress="" UserField="" ExtApp="" VNCCompression="CompNone" VNCEncoding="EncHextile" VNCAuthMode="AuthVNC" VNCProxyType="ProxyNone" VNCProxyIP="" VNCProxyPort="0" VNCProxyUsername="" VNCProxyPassword="" VNCColors="ColNormal" VNCSmartSizeMode="SmartSAspect" VNCViewOnly="false" RDGatewayUsageMethod="Never" RDGatewayHostname="" RDGatewayUseConnectionCredentials="Yes" RDGatewayUsername="" RDGatewayPassword="" RDGatewayDomain="" InheritCacheBitmaps="false" InheritColors="false" InheritDescription="false" InheritDisplayThemes="false" InheritDisplayWallpaper="false" InheritEnableFontSmoothing="false" InheritEnableDesktopComposition="false" InheritDomain="false" InheritIcon="false" InheritPanel="false" InheritPassword="false" InheritPort="false" InheritProtocol="false" InheritPuttySession="false" InheritRedirectDiskDrives="false" InheritRedirectKeys="false" InheritRedirectPorts="false" InheritRedirectPrinters="false" InheritRedirectSmartCards="false" InheritRedirectSound="false" InheritSoundQuality="false" InheritResolution="false" InheritAutomaticResize="false" InheritUseConsoleSession="false" InheritUseCredSsp="false" InheritRenderingEngine="false" InheritUsername="false" InheritICAEncryptionStrength="false" InheritRDPAuthenticationLevel="false" InheritRDPMinutesToIdleTimeout="false" InheritRDPAlertIdleTimeout="false" InheritLoadBalanceInfo="false" InheritPreExtApp="false" InheritPostExtApp="false" InheritMacAddress="false" InheritUserField="false" InheritExtApp="false" InheritVNCCompression="false" InheritVNCEncoding="false" InheritVNCAuthMode="false" InheritVNCProxyType="false" InheritVNCProxyIP="false" InheritVNCProxyPort="false" InheritVNCProxyUsername="false" InheritVNCProxyPassword="false" InheritVNCColors="false" InheritVNCSmartSizeMode="false" InheritVNCViewOnly="false" InheritRDGatewayUsageMethod="false" InheritRDGatewayHostname="false" InheritRDGatewayUseConnectionCredentials="false" InheritRDGatewayUsername="false" InheritRDGatewayPassword="false" InheritRDGatewayDomain="false">\n'
                 
@@ -35,11 +31,9 @@ class Generator:
     def __get_connections(self) -> list[ConfConsConnection]:
         try:
             connections = []
-            regions = self.database.execute('SELECT * FROM settings_query_regions').fetchall()
 
-            for region in regions:
-                instances = ec2.ElasticComputeCloudService(region['region']).get_instances_by_tags()
-                putty_session_name = self.database.execute('SELECT session_name FROM settings_putty_session_names WHERE region = (?)', (region['region'],)).fetchone()
+            for region in self.regions():
+                instances = ec2.ElasticComputeCloudService(region).get_instances()
 
                 for instance in instances:
                     if instance.state.lower() != 'running': continue
@@ -47,13 +41,13 @@ class Generator:
                     name_tag = [tag for tag in instance.tags if tag.key == 'Name'][0].value
                     product_tag = [tag for tag in instance.tags if tag.key == 'Product'][0].value
 
-                    connections.append(ConfConsConnection(name_tag, instance.private_ip_address, instance.operating_system, product_tag, putty_session_name['session_name']))
+                    connections.append(ConfConsConnection(name_tag, instance.private_ip_address, instance.operating_system, product_tag, self.get_putty_session_name(region)))
             
             return sorted(connections, key = lambda x: x.name)
         except Exception as e:
             raise Exception(e)
 
-    def run(self):
+    def generate(self):
         try:
             self.connections = self.__get_connections()
             

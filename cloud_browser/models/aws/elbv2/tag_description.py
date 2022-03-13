@@ -1,5 +1,5 @@
+from cloud_browser.models.aws.base import BaseAwsResource
 from cloud_browser.models.aws.generic.tag import Tag
-from cloud_browser.models.base import BaseAwsResource
 
 class TagDescription(BaseAwsResource):
     def __init__(self, tag_description_json):

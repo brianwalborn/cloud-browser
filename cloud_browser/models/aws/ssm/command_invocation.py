@@ -1,4 +1,4 @@
-from cloud_browser.models.base import BaseAwsResource
+from cloud_browser.models.aws.base import BaseAwsResource
 
 class CommandInvocation(BaseAwsResource):
     def __init__(self, command_invocation_json):

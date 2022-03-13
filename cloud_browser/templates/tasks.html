@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="services">
+        <h2 class="uk-text-light uk-heading-divider">Tasks</h2>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <a class="action" href="{{ service }}/{{ task['task'] }}" onclick="loading()">{{ task['task'] }}</a> -- <span>{{ task['description'] }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

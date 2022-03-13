@@ -1,4 +1,4 @@
-from cloud_browser.models.base import BaseAwsResource
+from cloud_browser.models.aws.base import BaseAwsResource
 
 class TargetHealth(BaseAwsResource):
     def __init__(self, target_health_json):

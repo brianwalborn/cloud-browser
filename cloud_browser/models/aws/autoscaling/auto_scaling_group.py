@@ -1,6 +1,6 @@
 from cloud_browser.models.aws.autoscaling.instance import Instance
 from cloud_browser.models.aws.autoscaling.suspended_process import SuspendedProcess
-from cloud_browser.models.base import BaseAwsResource
+from cloud_browser.models.aws.base import BaseAwsResource
 
 class AutoScalingGroup(BaseAwsResource):
     def __init__(self, auto_scaling_group_json) -> None:

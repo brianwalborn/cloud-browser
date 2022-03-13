@@ -1,7 +1,8 @@
 import json
 import os
+from cloud_browser.blueprints.utils.breadcrumb import Breadcrumb
 from flask import current_app as app
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 bp = Blueprint('base', __name__)
 
@@ -21,4 +22,4 @@ def load_tasks(service):
     for aws_service in services: 
         if aws_service['name'] == service: tasks = aws_service['tasks']
 
-    return render_template('tasks.html', service = service, tasks = tasks)
+    return render_template('tasks.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), service = service, tasks = tasks)

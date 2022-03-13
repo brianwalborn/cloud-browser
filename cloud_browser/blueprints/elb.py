@@ -1,5 +1,6 @@
+from cloud_browser.blueprints.utils.breadcrumb import Breadcrumb
 from cloud_browser.tasks.load_balancer_health import LoadBalancerHealth
-from flask import Blueprint, flash, render_template
+from flask import Blueprint, flash, render_template, request
 
 bp = Blueprint('elb', __name__)
 
@@ -14,4 +15,4 @@ def get_load_balancer_health():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('elb/load_balancer_health.html', load_balancers = load_balancers, service = 'get_load_balancer_health')
+    return render_template('elb/load_balancer_health.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), load_balancers = load_balancers, service = 'get_load_balancer_health')

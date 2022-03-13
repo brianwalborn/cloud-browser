@@ -1,34 +1,19 @@
 import cloud_browser.services.aws.ec2 as ec2
 import cloud_browser.services.aws.ssm as ssm
 import time
-from cloud_browser.database.database import get_database
 from cloud_browser.models.aws.autoscaling.instance import Instance
 from cloud_browser.models.aws.ssm.command import Command
 from cloud_browser.models.aws.ssm.command_invocation import CommandInvocation
+from cloud_browser.tasks.base import BaseTask
+from concurrent.futures import ThreadPoolExecutor
 from itertools import groupby
 
-class Orchestrator:
-    linux_command = None
-    windows_command = None
-
+class SendSsmCommand(BaseTask):
     def __init__(self) -> None:
-        self.database = get_database()
-        self.regions = self.database.execute('SELECT * FROM settings_query_regions').fetchall()
+        super().__init__()
 
-    def fetch_instances(self) -> list[Instance]:
-        instances = []
-
-        try:
-            for region in self.regions:
-                instances_in_region = ec2.ElasticComputeCloudService(region['region']).get_instances_by_tags()
-
-                for instance in instances_in_region:
-                    if instance.state.lower() == 'running':
-                        instances.append(instance)
-        except Exception as e:
-            raise Exception(e)
-
-        return sorted(instances, key = lambda x: x.name)
+        self.linux_command = None
+        self.windows_command = None
 
     def __get_distinct_operating_systems(self, instances: list) -> list[str]:
         os_list = []
@@ -108,7 +93,27 @@ class Orchestrator:
 
         return completed_invocations
 
-    def send(self, selected_instances) -> list[Command]:
+    def get_instances(self) -> list[Instance]:
+        def __get_instances(service: ec2.ElasticComputeCloudService, instances: list[Instance]):
+            response = service.get_instances()
+
+            for instance in response:
+                if instance.state.lower() == 'running': instances.append(instance)
+
+        try:
+            instances: list[Instance] = []
+
+            with ThreadPoolExecutor(max_workers = 20) as executor:
+                for region in self.regions():
+                    service = ec2.ElasticComputeCloudService(region)
+                    
+                    executor.submit(__get_instances, service, instances)
+
+            return sorted(instances, key = lambda x: x.name)
+        except Exception as e:
+            raise Exception(e)
+
+    def send_commands(self, selected_instances) -> list[Command]:
         instances_grouped_by_region_and_os = self.__group_instances_by_operating_system(self.__group_instances_by_region(selected_instances))
         commands_to_send = self.__initialize_commands(instances_grouped_by_region_and_os)
 

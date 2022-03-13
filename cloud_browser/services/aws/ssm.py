@@ -1,5 +1,5 @@
 from cloud_browser.models.aws.ssm.command_invocation import CommandInvocation
-from cloud_browser.services.base import BaseAwsService
+from cloud_browser.services.aws.base import BaseAwsService
 
 class SimpleSystemsManagerService(BaseAwsService):
     def __init__(self, region) -> None:

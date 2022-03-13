@@ -1,5 +1,5 @@
+from cloud_browser.models.aws.base import BaseAwsResource
 from cloud_browser.models.aws.generic.tag import Tag
-from cloud_browser.models.base import BaseAwsResource
 
 class TargetGroup(BaseAwsResource):
     def __init__(self, target_group_json) -> None:

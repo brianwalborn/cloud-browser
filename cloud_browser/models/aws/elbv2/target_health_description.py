@@ -1,6 +1,6 @@
+from cloud_browser.models.aws.base import BaseAwsResource
 from cloud_browser.models.aws.elbv2.target import Target
 from cloud_browser.models.aws.elbv2.target_health import TargetHealth
-from cloud_browser.models.base import BaseAwsResource
 
 class TargetHealthDescription(BaseAwsResource):
     def __init__(self, target_group_arn, target_health_description_json):

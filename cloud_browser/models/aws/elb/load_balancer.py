@@ -1,6 +1,6 @@
+from cloud_browser.models.aws.base import BaseAwsResource
 from cloud_browser.models.aws.elb.health_check import HealthCheck
 from cloud_browser.models.aws.elb.listener import Listener
-from cloud_browser.models.base import BaseAwsResource
 
 class LoadBalancer(BaseAwsResource):
     def __init__(self, describe_load_balancer_json):

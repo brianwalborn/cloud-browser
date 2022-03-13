@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" content="width=device-width, initial-scale=1.0" name="viewport">
+        {% if service %}
+            <title>cloud browser - {{ service }}</title>
+        {% else %}
+            <title>cloud browser</title>
+        {% endif %}
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/uikit.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'styles/style.css') }}">
+    </head>
+
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav">
+                <li><a href="/" onclick="loading()" uk-icon="icon: home; ratio: 1.75"></a></li>
+                <li><a href="/settings" onclick="loading()" uk-icon="icon: cog; ratio: 1.75"></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    {% for category, message in get_flashed_messages(with_categories = true) %}
+        {% if category == 'error' %}
+            <div class="uk-alert-danger" uk-alert>
+        {% elif category == 'success' %}
+            <div class="uk-alert-success" uk-alert>
+        {% elif category == "warning" %}
+            <div class="uk-alert-warning" uk-alert>
+        {% else %}
+            <div class="uk-alert-primary" uk-alert>
+        {% endif %}
+                <a class="uk-alert-close" uk-close></a>
+                <p>{{ message }}</p>
+            </div>
+    {% endfor %}
+
+    
+    <ul class="uk-breadcrumb uk-margin-left">
+        {% for breadcrumb in breadcrumbs %}
+            <li><a {% if not breadcrumb.enabled %} class="uk-disabled" {% endif %} href="{{ breadcrumb.path }}" onclick="loading()">{{ breadcrumb.display }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div id="loader" class="uk-overlay-default uk-position-cover">
+        <div class="uk-position-center">
+            <span uk-spinner="ratio: 2"></span>
+        </div>
+    </div>
+
+    <section class="uk-container uk-margin-medium-top">
+        {% block content %}
+        {% endblock %}
+    </section>
+
+    <script src="{{ url_for('static', filename = 'js/uikit.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'js/uikit-icons.min.js') }}"></script>
+
+    <script>
+        function loading(){
+            document.getElementById('loader').style.display = 'block';     
+        }
+    </script>
+
+    {% block scripts %}
+    {% endblock %}
+</html>

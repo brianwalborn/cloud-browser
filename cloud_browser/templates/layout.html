@@ -36,6 +36,13 @@
             </div>
     {% endfor %}
 
+    
+    <ul class="uk-breadcrumb uk-margin-left">
+        {% for breadcrumb in breadcrumbs %}
+            <li><a {% if not breadcrumb.enabled %} class="uk-disabled" {% endif %} href="{{ breadcrumb.path }}" onclick="loading()">{{ breadcrumb.display }}</a></li>
+        {% endfor %}
+    </ul>
+
     <div id="loader" class="uk-overlay-default uk-position-cover">
         <div class="uk-position-center">
             <span uk-spinner="ratio: 2"></span>

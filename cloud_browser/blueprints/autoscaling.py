@@ -1,5 +1,6 @@
+from cloud_browser.blueprints.utils.breadcrumb import Breadcrumb
 from cloud_browser.tasks.get_auto_scaling_groups import GetAutoScalingGroups
-from flask import Blueprint, flash, render_template
+from flask import Blueprint, flash, render_template, request
 
 bp = Blueprint('autoscaling', __name__)
 
@@ -14,7 +15,7 @@ def get_life_cycle_hooks():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('autoscaling/life_cycle_hooks.html', auto_scaling_groups = auto_scaling_groups, service = 'get_life_cycle_hooks')
+    return render_template('autoscaling/life_cycle_hooks.html', auto_scaling_groups = auto_scaling_groups, breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), service = 'get_life_cycle_hooks')
 
 @bp.route('/autoscaling/get_suspended_processes')
 def get_suspended_processes():
@@ -27,4 +28,4 @@ def get_suspended_processes():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('autoscaling/suspended_processes.html', auto_scaling_groups = auto_scaling_groups, service = 'get_suspended_processes')
+    return render_template('autoscaling/suspended_processes.html', auto_scaling_groups = auto_scaling_groups, breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), service = 'get_suspended_processes')

@@ -1,3 +1,4 @@
+from cloud_browser.blueprints.utils.breadcrumb import Breadcrumb
 from cloud_browser.blueprints.utils.validator import Validator
 from cloud_browser.database.database import get_database
 from flask import Blueprint, flash, render_template, request
@@ -40,4 +41,4 @@ def index():
     tags = database.execute('SELECT * FROM settings_query_tags').fetchall()
     tags_to_exclude = database.execute('SELECT * FROM settings_exclude_tags').fetchall()
 
-    return render_template('settings.html', invalid_fields = validator.invalid_fields, putty_sessions = putty_sessions, regions = regions, service = 'settings', tags = tags, tags_to_exclude = tags_to_exclude)
+    return render_template('settings.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), invalid_fields = validator.invalid_fields, putty_sessions = putty_sessions, regions = regions, service = 'settings', tags = tags, tags_to_exclude = tags_to_exclude)

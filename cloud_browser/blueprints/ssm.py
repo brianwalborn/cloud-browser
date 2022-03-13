@@ -1,4 +1,5 @@
 import flask
+from cloud_browser.blueprints.utils.breadcrumb import Breadcrumb
 from cloud_browser.blueprints.utils.validator import Validator
 from cloud_browser.models.aws.ec2.instance import Instance
 from cloud_browser.tasks.send_ssm_command import SendSsmCommand
@@ -44,7 +45,7 @@ def command_input():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('ssm/send_ssm_command/command_input.html', instances = context.selected_instances, invalid_fields = validator.invalid_fields, operating_systems = operating_systems, service = 'send_ssm_command')
+    return render_template('ssm/send_ssm_command/command_input.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), instances = context.selected_instances, invalid_fields = validator.invalid_fields, operating_systems = operating_systems, service = 'send_ssm_command')
 
 @bp.route('/ssm/send_ssm_command/command_results')
 def command_results():
@@ -63,7 +64,7 @@ def command_results():
 
     context.clear()
         
-    return render_template('ssm/send_ssm_command/command_results.html', results = results, service = 'send_ssm_command')
+    return render_template('ssm/send_ssm_command/command_results.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), results = results, service = 'send_ssm_command')
 
 @bp.route('/ssm/send_ssm_command')
 def redirect():
@@ -88,4 +89,4 @@ def select_instances():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('ssm/send_ssm_command/select_instances.html', instances = context.all_instances, service = 'send_ssm_command')
+    return render_template('ssm/send_ssm_command/select_instances.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), instances = context.all_instances, service = 'send_ssm_command')

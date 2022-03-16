@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS settings_exclude_tags;
+DROP TABLE IF EXISTS settings_putty_session_names;
 DROP TABLE IF EXISTS settings_query_regions;
 DROP TABLE IF EXISTS settings_query_tags;
 

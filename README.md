@@ -4,6 +4,7 @@
 - [Git](https://git-scm.com/downloads) (of course!)
 - [Python 3.9](https://www.python.org/downloads/release/python-395/) or greater
 - [AWS CLI configuration](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config)
+___
 ### Initial set up (Linux, Mac, & Windows)
 1. Clone the repository
 ```sh
@@ -18,35 +19,27 @@ cd cloud-browser
 ```sh
 pip install -r requirements.txt
 ```
-2. Set the `FLASK_APP` environment variable
+2. Run the `startup.sh` script with the `-d` flag to initialize the database
 ```sh
-export FLASK_APP=cloud_browser
+./startup.sh -d
 ```
-3. Initialize the database
-```sh
-flask init-database
-```
-4. Run the application
-```sh
-flask run
-```
+3. Navigate to localhost:5000 in a browser
+
+**Note:** To run the application after the database has been initialized, simply run `./startup.sh`
+___
 ### Running the application (in PowerShell)
 1. Install the dependecies with `pip`
 ```powershell
 py -m pip install -r .\requirements.txt
 ```
-2. Set the `FLASK_APP` environment variable
+2. Run the `startup.ps1` script with the `-d` flag to initialize the database
 ```powershell
-$env:FLASK_APP="cloud_browser"
+.\startup.ps1 -d
 ```
-3. Initialize the database
-```powershell
-py -m flask init-database
-```
-4. Run the application
-```powershell
-py -m flask run
-```
+3. Navigate to localhost:5000 in a browser
+
+**Note:** To run the application after the database has been initialized, simply run `.\startup.ps1`
+___
 ### Initialize settings
 1. Enter the desired regions and tags on the settings page. For example:
 ![alt text](cloud_browser/static/images/settings.png)

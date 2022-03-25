@@ -19,9 +19,9 @@ cd cloud-browser
 ```sh
 pip install -r requirements.txt
 ```
-2. Run the `startup.sh` script with the `-d` flag to initialize the database
+2. Run the `startup.sh` script with the `--d` flag to initialize the database
 ```sh
-./startup.sh -d
+./startup.sh --d
 ```
 3. Navigate to localhost:5000 in a browser
 

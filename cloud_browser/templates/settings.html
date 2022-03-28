@@ -4,20 +4,43 @@
     <h2 class="uk-text-light uk-heading-divider">Settings</h2>
     <div class="uk-section uk-section-xsmall">
         <div class="uk-container">
+            <h3 class="uk-text-light uk-heading-line"><span>AWS Profiles</span></h3>
+            <span class="uk-text-meta">Select an AWS profile from your available profiles. See <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-config" rel="noopener" target="_blank">the AWS credential configuration basics</a> for details.</span>
+            <table class="uk-table uk-table-small uk-table-middle">
+                <tbody>
+                    {% for aws_profile in aws_profiles %}
+                        <tr>
+                            <form method="POST">
+                                <td class="uk-table-shrink">
+                                    <label class="uk-label settings-label">{{ aws_profile }}</label>
+                                    <input name="aws_profile" type="hidden" value="{{ aws_profile }}" />
+                                </td>
+                                <td>
+                                    <button class="uk-button uk-button-link uk-button-small" name="select_aws_profile" type="submit" {% if aws_profile == selected_aws_profile %}disabled{% endif %}>
+                                        {% if aws_profile == selected_aws_profile %}
+                                            <span class="uk-text-success" uk-icon="icon: check"></span>
+                                        {% else %}
+                                            <span class="uk-text-muted" uk-icon="icon: plus-circle"></span>
+                                        {% endif %}
+                                    </button>
+                                </td>
+                            </form>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="uk-section uk-section-xsmall">
+        <div class="uk-container">
             <h3 class="uk-text-light uk-heading-line"><span>Regions</span></h3>
             <span class="uk-text-meta">Specify the regions in which to query for resources.</span>
             <table class="uk-table uk-table-small uk-table-middle">
-                <thead>
-                    <tr>
-                        <th class="uk-table-shrink">Region</th>
-                        <th></th>
-                    </tr>
-                </thead>
                 <tbody>
                     {% for region in regions %}
                         <tr>
                             <form method="POST">
-                                <td>
+                                <td class="uk-table-shrink">
                                     <label class="uk-label settings-label" >{{ region['region'] }}</label>
                                     <input type="hidden" name="id" value="{{ region['id'] }}" />
                                 </td>
@@ -29,7 +52,7 @@
                     {% endfor %}
                     <tr>
                         <form method="POST">
-                            <td>
+                            <td class="uk-table-shrink">
                                 <input class="uk-input uk-form-width-medium {{'uk-form-danger' if 'region' in invalid_fields }}" name="region" type="text" placeholder="Add region">
                             </td>
                             <td>

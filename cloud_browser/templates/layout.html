@@ -44,16 +44,21 @@
         {% endfor %}
     </ul>
 
-    <div id="loader" class="uk-overlay-default uk-position-cover">
+    <div id="loader" class="uk-overlay-default uk-position-cover uk-position-fixed">
         <div class="uk-position-center">
             <span uk-spinner="ratio: 2"></span>
         </div>
     </div>
 
-    <section class="uk-container uk-margin-medium-top">
+    <section class="uk-container uk-margin-medium-top" uk-height-viewport="expand: true">
         {% block content %}
         {% endblock %}
     </section>
+
+    <footer class="uk-margin-bottom uk-margin-top uk-text-center">
+        <hr class="uk-divider-small">
+        <a href="https://github.com/brianwalborn/cloud-browser" target="_blank" uk-icon="github"></a>
+    </footer>
 
     <script src="{{ url_for('static', filename = 'js/uikit.min.js') }}"></script>
     <script src="{{ url_for('static', filename = 'js/uikit-icons.min.js') }}"></script>

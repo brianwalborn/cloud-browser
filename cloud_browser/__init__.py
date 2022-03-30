@@ -41,4 +41,3 @@ def create_app(test_config = None):
     database.init_app(app)
 
     return app
-

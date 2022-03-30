@@ -5,6 +5,7 @@ from cloud_browser.models.aws.generic.tag import Tag
 
 class BaseAwsService:
     __session: boto3.Session = None
+    __session_token: str = None
 
     def __init__(self, aws_service, region) -> None:
         self.client = self.__get_client(aws_service, region)
@@ -44,12 +45,14 @@ class BaseAwsService:
             if BaseAwsService.__session_null_or_updated() or BaseAwsService.__session_expired(): BaseAwsService.__session = BaseAwsService.__create_session()
             credentials = BaseAwsService.__session.get_credentials()
 
+            BaseAwsService.__session_token = credentials.token
+
             return BaseAwsService.__session.client(
                 aws_service, 
                 region_name = region, 
                 aws_access_key_id = credentials.access_key,
                 aws_secret_access_key = credentials.secret_key,
-                aws_session_token = credentials.token
+                aws_session_token = BaseAwsService.__session_token
             )
         except Exception as e:
             raise Exception(e)
@@ -98,9 +101,10 @@ class BaseAwsService:
             if not BaseAwsService.__session: return True
 
             current_profile = BaseAwsService.__session.profile_name
+            current_token = BaseAwsService.__create_session().get_credentials().token
             selected_profile = get_database().execute('SELECT * FROM settings_selected_aws_profile').fetchone()
 
-            return not current_profile == selected_profile['aws_profile']
+            return current_profile != selected_profile['aws_profile'] or current_token != BaseAwsService.__session_token
         except Exception as e:
             raise Exception(e)
 

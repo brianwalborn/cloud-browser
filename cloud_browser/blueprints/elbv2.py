@@ -19,5 +19,6 @@ def get_target_group_health():
         content_title = 'Target Groups',
         target_groups = results,
         service = 'get_target_group_health',
-        show_refresh = True
+        show_refresh = True,
+        show_filter = True
     )

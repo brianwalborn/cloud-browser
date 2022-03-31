@@ -109,5 +109,6 @@ def select_instances():
         content_title = 'Select Instances',
         instances = context.all_instances,
         service = 'send_ssm_command',
-        show_refresh = True
+        show_refresh = True,
+        show_filter = True
     )

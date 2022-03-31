@@ -21,7 +21,8 @@ def get_life_cycle_hooks():
         breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
         content_title = 'Life Cycle Hooks',
         service = 'get_life_cycle_hooks',
-        show_refresh = True
+        show_refresh = True,
+        show_filter = True
     )
 
 @bp.route('/autoscaling/get_suspended_processes')
@@ -41,5 +42,6 @@ def get_suspended_processes():
         breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
         content_title = 'Suspended Processes',
         service = 'get_suspended_processes',
-        show_refresh = True
+        show_refresh = True,
+        show_filter = True
     )

@@ -21,5 +21,6 @@ def get_load_balancer_health():
         content_title = 'Classic Load Balancers',
         load_balancers = load_balancers,
         service = 'get_load_balancer_health',
-        show_refresh = True
+        show_refresh = True,
+        show_filter = True
     )

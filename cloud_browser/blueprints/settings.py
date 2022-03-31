@@ -46,4 +46,16 @@ def index():
     tags = database.execute('SELECT * FROM settings_query_tags').fetchall()
     tags_to_exclude = database.execute('SELECT * FROM settings_exclude_tags').fetchall()
 
-    return render_template('settings.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), invalid_fields = validator.invalid_fields, aws_profiles = aws_profiles, putty_sessions = putty_sessions, regions = regions, selected_aws_profile = selected_aws_profile['aws_profile'], service = 'settings', tags = tags, tags_to_exclude = tags_to_exclude)
+    return render_template(
+        'settings.html',
+        aws_profiles = aws_profiles,
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Settings',
+        invalid_fields = validator.invalid_fields,
+        putty_sessions = putty_sessions,
+        regions = regions,
+        selected_aws_profile = selected_aws_profile['aws_profile'],
+        service = 'settings',
+        tags = tags,
+        tags_to_exclude = tags_to_exclude
+    )

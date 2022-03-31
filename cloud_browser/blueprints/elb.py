@@ -15,4 +15,11 @@ def get_load_balancer_health():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('elb/load_balancer_health.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), load_balancers = load_balancers, service = 'get_load_balancer_health')
+    return render_template(
+        'elb/load_balancer_health.html',
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Classic Load Balancers',
+        load_balancers = load_balancers,
+        service = 'get_load_balancer_health',
+        show_refresh = True
+    )

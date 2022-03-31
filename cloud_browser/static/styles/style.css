@@ -59,3 +59,7 @@ li {
 .uk-text-meta a {
     color: #1e87f0;
 }
+
+.clickable {
+    cursor: pointer;
+}

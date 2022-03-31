@@ -3,7 +3,7 @@
 {% block data %}
     <p class="uk-text-meta">Select the instances on which you'd like to run a command.</p>
     <form method="POST">
-        <table class="uk-table uk-table-divider">
+        <table class="uk-table uk-table-divider uk-table-hover">
             <thead>
                 <tr>
                     <th>Instance ID</th>
@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 {% for instance in instances %}
-                    <tr>
+                    <tr class="clickable">
                         <td>{{ instance.instance_id }}</td>
                         <td>{{ instance.name }}</td>
                         <td>{{ instance.region }}</td>
@@ -42,5 +42,16 @@
                 }
             }
         }
+    </script>
+    <script>
+        $(document).ready(function(){        
+            $('.clickable').click(function() {
+                ele = $(this).find('td input:checkbox')[0];
+                ele.checked = ! ele.checked;
+            });
+            $('input:checkbox').click(function(e){
+                e.stopPropagation();
+            });
+        });
     </script>
 {% endblock %}

@@ -63,7 +63,3 @@ li {
 .clickable {
     cursor: pointer;
 }
-
-tr.clickable:hover {
-    background-color: lightgray;
-}

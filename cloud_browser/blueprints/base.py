@@ -11,7 +11,11 @@ def index():
     f = open(os.path.join(app.static_folder, 'data', 'services.json'))
     services = json.load(f)
 
-    return render_template('base.html', services = services)
+    return render_template(
+        'shared/services.html',
+        content_title = 'AWS Services',
+        services = services
+    )
 
 @bp.route('/<string:service>')
 def load_tasks(service):
@@ -22,4 +26,8 @@ def load_tasks(service):
     for aws_service in services: 
         if aws_service['name'] == service: tasks = aws_service['tasks']
 
-    return render_template('tasks.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), service = service, tasks = tasks)
+    return render_template(
+        'shared/tasks.html',
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        service = service, tasks = tasks
+    )

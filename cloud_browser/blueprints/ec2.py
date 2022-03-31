@@ -13,4 +13,11 @@ def generate_conf_cons():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('ec2/generate_conf_cons.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), service = 'generate_conf_cons', xml = xml)
+    return render_template(
+        'ec2/generate_conf_cons.html', 
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'confCons.xml Generator',
+        service = 'generate_conf_cons', 
+        show_refresh = True,
+        xml = xml
+    )

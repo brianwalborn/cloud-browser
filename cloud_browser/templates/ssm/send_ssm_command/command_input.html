@@ -1,7 +1,6 @@
-{% extends 'layout.html' %}
+{% extends 'shared/content.html' %}
 
-{% block content %}
-    <h2 class="uk-text-light uk-heading-divider">Enter Command(s)</h2>
+{% block data %}
     <form id="commands" method="POST">
         {% if 'linux/unix' in operating_systems %}
             <div class="uk-margin">

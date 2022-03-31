@@ -15,7 +15,14 @@ def get_life_cycle_hooks():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('autoscaling/life_cycle_hooks.html', auto_scaling_groups = auto_scaling_groups, breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), service = 'get_life_cycle_hooks')
+    return render_template(
+        'autoscaling/life_cycle_hooks.html',
+        auto_scaling_groups = auto_scaling_groups,
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Life Cycle Hooks',
+        service = 'get_life_cycle_hooks',
+        show_refresh = True
+    )
 
 @bp.route('/autoscaling/get_suspended_processes')
 def get_suspended_processes():
@@ -28,4 +35,11 @@ def get_suspended_processes():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('autoscaling/suspended_processes.html', auto_scaling_groups = auto_scaling_groups, breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), service = 'get_suspended_processes')
+    return render_template(
+        'autoscaling/suspended_processes.html',
+        auto_scaling_groups = auto_scaling_groups,
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Suspended Processes',
+        service = 'get_suspended_processes',
+        show_refresh = True
+    )

@@ -45,7 +45,15 @@ def command_input():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('ssm/send_ssm_command/command_input.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), instances = context.selected_instances, invalid_fields = validator.invalid_fields, operating_systems = operating_systems, service = 'send_ssm_command')
+    return render_template(
+        'ssm/send_ssm_command/command_input.html',
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Enter Command(s)',
+        instances = context.selected_instances,
+        invalid_fields = validator.invalid_fields,
+        operating_systems = operating_systems,
+        service = 'send_ssm_command'
+    )
 
 @bp.route('/ssm/send_ssm_command/command_results')
 def command_results():
@@ -64,7 +72,13 @@ def command_results():
 
     context.clear()
         
-    return render_template('ssm/send_ssm_command/command_results.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), results = results, service = 'send_ssm_command')
+    return render_template(
+        'ssm/send_ssm_command/command_results.html',
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Command Results',
+        results = results,
+        service = 'send_ssm_command'
+    )
 
 @bp.route('/ssm/send_ssm_command')
 def redirect():
@@ -89,4 +103,11 @@ def select_instances():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('ssm/send_ssm_command/select_instances.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), instances = context.all_instances, service = 'send_ssm_command')
+    return render_template(
+        'ssm/send_ssm_command/select_instances.html',
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Select Instances',
+        instances = context.all_instances,
+        service = 'send_ssm_command',
+        show_refresh = True
+    )

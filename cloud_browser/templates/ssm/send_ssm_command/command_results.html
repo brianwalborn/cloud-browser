@@ -1,7 +1,6 @@
-{% extends 'layout.html' %}
+{% extends 'shared/content.html' %}
 
-{% block content %}
-    <h2 class="uk-text-light uk-heading-divider">Command Results</h2>
+{% block data %}
     {% for result in results %}
         <div class="uk-section uk-section-xsmall">
             <pre class="uk-background-muted ssm-command-result">

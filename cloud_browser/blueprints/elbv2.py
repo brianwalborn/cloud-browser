@@ -13,4 +13,11 @@ def get_target_group_health():
     except Exception as e:
         flash(e, 'error')
 
-    return render_template('elbv2/target_group_health.html', breadcrumbs = Breadcrumb.get_breadcrumbs(request.path), target_groups = results, service = 'get_target_group_health')
+    return render_template(
+        'elbv2/target_group_health.html',
+        breadcrumbs = Breadcrumb.get_breadcrumbs(request.path),
+        content_title = 'Target Groups',
+        target_groups = results,
+        service = 'get_target_group_health',
+        show_refresh = True
+    )

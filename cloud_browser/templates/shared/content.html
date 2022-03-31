@@ -1,0 +1,19 @@
+{% extends 'shared/layout.html' %}
+
+{% block content %}
+    <h2 class="uk-text-light uk-heading-divider">{{ content_title }}</h2>
+
+    {% if show_refresh %}
+        <form method="GET">
+            <button class="uk-button uk-button-link uk-button-small uk-float-right" name="refresh" onclick="loading()" type="submit" uk-tooltip="Refresh results">
+                <span uk-icon="refresh"></span>
+            </button>
+        </form>
+    {% endif %}
+
+    {% block data %}
+    {% endblock %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

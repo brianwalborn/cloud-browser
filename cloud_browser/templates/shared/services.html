@@ -1,7 +1,6 @@
-{% extends 'layout.html' %}
+{% extends 'shared/content.html' %}
 
-{% block content %}
-    <h2 class="uk-text-light uk-heading-divider">AWS Services</h2>
+{% block data %}
     <div class="uk-grid-small" uk-grid>
         {% for service in services %}
             <div>

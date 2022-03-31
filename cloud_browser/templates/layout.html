@@ -69,6 +69,20 @@
         }
     </script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("<input id=\"filter-input\" type=\"text\" placeholder=\"Filter Items..\">").insertBefore(".uk-table")
+            
+            $("#filter-input").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".uk-table tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
     {% block scripts %}
     {% endblock %}
 </html>

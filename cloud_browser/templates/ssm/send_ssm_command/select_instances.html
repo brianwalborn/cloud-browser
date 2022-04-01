@@ -37,7 +37,8 @@
             input_elements = document.getElementsByTagName('input');
 
             for (var element in input_elements) {
-                if (input_elements[element].type == 'checkbox') {
+                if (input_elements[element].type == 'checkbox' && 
+                input_elements[element].parentElement.parentElement.style['cssText'] != "display: none;") {
                     input_elements[element].checked = source.checked;
                 }
             }

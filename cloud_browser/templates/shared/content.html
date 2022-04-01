@@ -18,7 +18,7 @@
             $(document).ready(function(){       
                 $("#filter-input").on("keyup", function() {
                     var value = $(this).val().toLowerCase();
-                    $(".uk-table tr").filter(function() {
+                    $(".uk-table tr").not("thead tr").filter(function() {
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
                 });
@@ -28,6 +28,7 @@
 
     {% block data %}
     {% endblock %}
+
 {% endblock %}
 
 {% block scripts %}

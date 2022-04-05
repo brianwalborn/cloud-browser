@@ -20,21 +20,22 @@
         {% endif %}
             
         <div id="verify" uk-modal>
-            <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">Submit command(s)?</h2>
-                <p>Submit entered commands to the below instances?</p>
-                <ul>
-                    {% for instance in instances %}
-                        <li>
-                            {{ instance.name }} ({{ instance.instance_id }})
-                        </li>
-                    {% endfor %}
-                </ul>
-                <p class="uk-text-right">
-                        <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                        <button class="uk-button uk-button-primary" onclick="loading(); submit()" type="submit">Submit</button>
-                    </form>
-                </p>
+            <div class="uk-modal-dialog">
+                <div class="uk-modal-body" uk-overflow-auto>
+                    <h2 class="uk-modal-title">Submit command(s)?</h2>
+                    <p>Submit entered commands to the below instances?</p>
+                    <ul>
+                        {% for instance in instances %}
+                            <li>
+                                {{ instance.name }} ({{ instance.instance_id }})
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="uk-modal-footer uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button class="uk-button uk-button-primary" onclick="loading(); submit()" type="submit">Submit</button>
+                </div>
             </div>
         </div>
     </form>

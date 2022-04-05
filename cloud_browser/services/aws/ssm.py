@@ -1,3 +1,4 @@
+from cloud_browser.models.aws.ssm.command import Command
 from cloud_browser.models.aws.ssm.command_invocation import CommandInvocation
 from cloud_browser.services.aws.base import BaseAwsService
 

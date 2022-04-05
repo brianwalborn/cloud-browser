@@ -47,19 +47,24 @@ class SendSsmCommand(BaseTask):
         for region_group in groups:
             if len(region_group):
                 for os_group in region_group:
-                    command = Command(os_group)
-                    os = os_group[0].operating_system
+                    instance_group = [os_group]
+                    
+                    if len(os_group) >= 50: instance_group = [os_group[n:n+50] for n in range(0, len(os_group), 50)] # the send_command call can only handle 50 instances at a time
 
-                    if os.lower() == 'linux/unix': command.linux_command = self.linux_command
-                    elif os.lower() == 'windows': command.windows_command = self.windows_command
-                    else:
-                        raise Exception(f'Unrecognized operating system: \'{os}\'.')
+                    for group in instance_group:
+                        command = Command(group)
+                        os = group[0].operating_system
 
-                    command.set_document_name()
-                    command.set_parameter()
-                    command.region = os_group[0].region
+                        if os.lower() == 'linux/unix': command.linux_command = self.linux_command
+                        elif os.lower() == 'windows': command.windows_command = self.windows_command
+                        else:
+                            raise Exception(f'Unrecognized operating system: \'{os}\'.')
 
-                    commands.append(command)
+                        command.set_document_name()
+                        command.set_parameter()
+                        command.region = group[0].region
+
+                        commands.append(command)
 
         return commands
 

@@ -16,6 +16,11 @@ li {
     text-transform: lowercase;
 }
 
+.kms_result {
+    white-space: normal;
+    word-break: break-word;
+}
+
 .service-information {
     margin: 0 auto;
     width: 85%;

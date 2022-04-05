@@ -1,5 +1,5 @@
 import os
-from cloud_browser.blueprints import autoscaling, base, ec2, elb, elbv2, settings, ssm
+from cloud_browser.blueprints import autoscaling, base, ec2, elb, elbv2, kms, settings, ssm
 from cloud_browser.database import database
 from flask import Flask
 
@@ -31,6 +31,9 @@ def create_app(test_config = None):
 
     app.register_blueprint(base.bp)
     app.add_url_rule('/', endpoint = 'index')
+
+    app.register_blueprint(kms.bp)
+    app.add_url_rule('/kms/<string:task>', endpoint = '')
 
     app.register_blueprint(settings.bp)
     app.add_url_rule('/settings', endpoint = 'index')

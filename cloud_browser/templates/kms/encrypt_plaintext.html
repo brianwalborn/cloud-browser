@@ -1,0 +1,49 @@
+{% extends 'shared/content.html' %}
+
+{% block data %}
+    {% if not result %}
+        <form method="POST">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Key ID <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <input class="uk-input {{'uk-form-danger' if 'key' in invalid_fields }}" id="form-horizontal-text" name="key" type="text" placeholder="1234abcd-12ab-34cd-56ef-1234567890ab">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label uk-width-1-1" for="form-horizontal-text">Encryption Context</label>
+                <div class="uk-grid-small" uk-grid>
+                    <div class="uk-form-controls uk-width-1-2@s">
+                        <input class="uk-input {{'uk-form-danger' if 'context_key' in invalid_fields }}" id="form-horizontal-text" name="context_key" type="text" placeholder="Key">
+                    </div>
+                    <div class="uk-form-controls uk-width-1-2@s">
+                        <input class="uk-input {{'uk-form-danger' if 'context_value' in invalid_fields }}" id="form-horizontal-text" name="context_value" type="text" placeholder="Value">
+                    </div>
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-horizontal-text">Plaintext <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <input class="uk-input {{'uk-form-danger' if 'plaintext' in invalid_fields }}" id="form-horizontal-text" name="plaintext" type="text" placeholder="plaintext">
+                </div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-select">Region <span class="uk-text-danger">*</span></label>
+                <div class="uk-form-controls">
+                    <select class="uk-select {{'uk-form-danger' if 'region' in invalid_fields }}" id="form-stacked-select" name="region">
+                        {% for region in regions %}
+                            <option>{{ region['region'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <button class="uk-button uk-button-primary uk-float-right" type="submit">Encrypt</button>
+        </form>
+    {% else %}
+        <pre class="uk-background-muted">
+            <code class="kms_result">
+                {{ result }}
+            </code>
+        </pre>
+        <a class="uk-button uk-button-primary uk-float-right" href="encrypt_plaintext" onclick="loading()">Another</a>
+    {% endif %}
+{% endblock %}
